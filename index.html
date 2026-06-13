@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The v3 Forecaster — Every Match, One Recipe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--pitch:#0B1A12;--pitch2:#07120C;--chalk:#F2EFE4;--dim:#9DAA9F;--amber:#FFB347;
+--win:#3FBF7F;--loss:#E5645E;--slip:#F6F1E3;--ink:#1A2419;
+--mono:'IBM Plex Mono',ui-monospace,monospace;--disp:'Saira Condensed',ui-sans-serif,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:repeating-linear-gradient(90deg,transparent 0 119px,rgba(242,239,228,.03) 119px 120px),
+linear-gradient(180deg,var(--pitch),var(--pitch2));color:var(--chalk);font-family:var(--disp)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 16px 64px}
+.eyebrow{font:600 13px/1 var(--mono);letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,52px);font-weight:800;line-height:.95;text-transform:uppercase;margin:10px 0 4px}
+.sub{color:var(--dim);font:400 14.5px/1.55 var(--mono);margin-bottom:18px}
+.chainmini{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+.chainmini span{font:600 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;border:1px solid rgba(242,239,228,.25);padding:6px 9px;color:var(--dim)}
+.chainmini span.hot{border-color:rgba(63,191,127,.55);color:var(--win)}
+.tabs{display:flex;gap:8px;margin:0 0 22px}
+.tab{font:800 14px/1 var(--disp);letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(242,239,228,.3);padding:10px 16px;cursor:pointer;color:var(--dim)}
+.tab.on{color:var(--pitch);background:var(--chalk);border-color:var(--chalk)}
+.tab:focus-visible{outline:2px solid var(--amber)}
+.banner{border:1px dashed rgba(255,179,71,.45);padding:11px 14px;font:400 12.5px/1.7 var(--mono);color:var(--chalk);margin-bottom:26px}
+.banner b{color:var(--amber)}
+.datehdr{font:800 16px/1 var(--disp);letter-spacing:.1em;text-transform:uppercase;margin:30px 0 10px;display:flex;gap:10px;align-items:center}
+.datehdr::after{content:"";flex:1;border-top:1px dashed rgba(242,239,228,.2)}
+.match{border:1px solid rgba(242,239,228,.16);background:rgba(0,0,0,.22);padding:12px 14px;margin-bottom:10px}
+.match.flagged{border-color:rgba(255,179,71,.55)}
+.match.retro{border-style:dashed;border-color:rgba(242,239,228,.3)}
+.vsrow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:2px}
+.side{display:flex;flex-direction:column;gap:3px;min-width:0}
+.side.R{align-items:flex-end;text-align:right}
+.rstat{text-align:center;font:600 11px/1 var(--mono);color:var(--dim);letter-spacing:.05em;margin:2px 0 4px}
+.tname{font:800 16px/1.2 var(--disp);text-transform:uppercase}
+.fl{font-size:17px;vertical-align:-1px}
+.tname.fav{color:var(--amber)}
+.meta{font:400 10.5px/1 var(--mono);color:var(--dim);letter-spacing:.04em}
+.probbar{display:flex;height:13px;margin:8px 0 4px;background:rgba(242,239,228,.05)}
+.pH{background:var(--win)}.pD{background:rgba(242,239,228,.28)}.pA{background:var(--loss)}
+.pcts{display:flex;justify-content:space-between;font:600 11.5px/1 var(--mono);color:var(--chalk);margin-bottom:7px}
+.pcts span:nth-child(2){color:var(--dim);font-weight:400}
+.mktline{font:400 10.5px/1.7 var(--mono);color:var(--dim);border-top:1px dashed rgba(242,239,228,.12);padding-top:6px}
+.srcbadge{display:inline-block;font:600 9px/1 var(--mono);letter-spacing:.08em;padding:2px 5px;margin-left:6px;border:1px solid rgba(242,239,228,.3);color:var(--dim);text-transform:uppercase;vertical-align:1px}
+.srcbadge.hr{border-color:rgba(63,191,127,.5);color:var(--win)}
+.travline{font:600 10.5px/1.7 var(--mono);color:var(--amber);border-top:1px dashed rgba(255,179,71,.3);padding-top:6px;margin-top:6px}
+.evchip{display:inline-block;font:600 10px/1 var(--mono);letter-spacing:.08em;border:1px solid rgba(255,179,71,.6);color:var(--amber);padding:3px 7px;margin-left:8px;text-transform:uppercase}
+.grade{display:inline-block;font:600 10px/1 var(--mono);letter-spacing:.08em;padding:3px 7px;margin-left:8px;text-transform:uppercase}
+.grade.hit{border:1px solid rgba(63,191,127,.6);color:var(--win)}
+.grade.miss{border:1px solid rgba(229,100,94,.6);color:var(--loss)}
+.grade.live{border:1px solid rgba(255,179,71,.6);color:var(--amber)}
+.legend{font:400 11.5px/1.8 var(--mono);color:var(--dim);margin:4px 0 8px}
+.legend i{display:inline-block;width:10px;height:10px;margin:0 4px -1px 10px}
+/* calculator */
+.bankbar{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;border:1px solid rgba(242,239,228,.18);background:rgba(0,0,0,.25);padding:14px;margin-bottom:6px}
+.bankbar .hint{font:400 11px/1.6 var(--mono);color:var(--dim);align-self:center;max-width:380px}
+label{font:600 10.5px/1.4 var(--mono);letter-spacing:.1em;color:var(--dim);text-transform:uppercase;display:block;margin-bottom:5px}
+input{width:100%;background:#0a150e;border:1px solid rgba(242,239,228,.3);color:var(--chalk);font:600 14px/1.2 var(--mono);padding:9px}
+input:focus{outline:2px solid var(--amber)}
+.orow{display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr;gap:8px;margin-top:9px;align-items:end}
+@media(max-width:560px){.orow{grid-template-columns:1fr 1fr;}.orow .bcell{grid-column:1/-1}}
+button.go{font:800 13px/1 var(--disp);letter-spacing:.1em;text-transform:uppercase;background:var(--win);color:var(--pitch);border:0;padding:11px 10px;cursor:pointer;width:100%}
+button.go:focus-visible{outline:2px solid var(--amber)}
+.cverd{margin-top:10px;background:var(--slip);color:var(--ink);border-radius:2px;padding:11px 13px;font:400 12px/1.7 var(--mono);display:none}
+.cverd b.head{font:800 17px/1.1 var(--disp);text-transform:uppercase;display:block;margin-bottom:3px}
+.cverd.bet b.head{color:#1e7a4d}
+.cverd.nobet b.head{color:#B0382F}
+.cverd .big{font-weight:600}
+.cverd .vwarn{font-size:10.5px;color:#5d6a5f;margin-top:6px}
+.caveat{margin-top:34px;font:400 12px/1.8 var(--mono);color:var(--dim);border-top:1px solid rgba(242,239,228,.14);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">World Cup 2026 · model v3 · frozen 2026-06-13T15:12Z · 68 matches</div>
+  <h1>The v3 Forecaster</h1>
+  <div class="sub">Every upcoming match, priced by the full v3 chain. Gold name = model favorite. Amber border = one of the quotes where v3 still disagrees with the market past the EV bar (5%, 3% on favorites) after being told to be humble.</div>
+  <div class="chainmini"><span>Elo replay</span><span>MLP head</span><span class="hot">+ squad value</span><span class="hot">⊗ 0.18 market</span><span class="hot">v3 quote</span></div>
+  <div class="tabs"><div class="tab on" id="tF" role="button" tabindex="0">Forecasts</div><div class="tab" id="tC" role="button" tabindex="0">Bet calculator</div></div>
+
+  <div id="tabForecasts">
+  <div class="banner"><b>First grade lands tonight.</b> v3 froze at 19:08Z, after Mexico–South Africa and Korea–Czechia finished and with Canada–Bosnia already in play — so its record starts at 0. United States–Paraguay (01:00Z) is graded match #1. A favorite is not a bet: by construction this model is 82% market, and prereg P1 expects the market to grade better than v3. The bars below are the 18% talking.</div>
+  <div class="legend">bar: <i style="background:var(--win)"></i>home <i style="background:rgba(242,239,228,.28)"></i>draw <i style="background:var(--loss)"></i>away · team tag: Elo · squad value (— = no usable value, adjustment skipped)</div>
+  <div class="datehdr">Already played — quoted blind, then graded</div><div class="legend">Ratings replayed strictly to each pregame state, market = the pre-match price. These three predate the freeze, so they sit outside the official paper card — exhibition grades only.</div><div class="match retro">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇲🇽</span> Mexico</span></div>
+    <div class="side R"><span class="tname">South Africa <span class="fl">🇿🇦</span></span></div>
+  </div>
+  <div class="rstat">final 2–0 <span class="grade hit">FAVORITE HIT</span></div>
+  <div class="probbar"><span class="pH" style="width:67.5%"></span><span class="pD" style="width:21.0%"></span><span class="pA" style="width:11.5%"></span></div>
+  <div class="pcts"><span>67%</span><span>draw 21%</span><span>12%</span></div>
+  <div class="mktline">blind call: Mexico · market was 64 / 23 / 14 · odds -213 / +311 / +579 · lvr +0.00</div>
+</div><div class="match retro">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇰🇷</span> South Korea</span></div>
+    <div class="side R"><span class="tname">Czech Republic <span class="fl">🇨🇿</span></span></div>
+  </div>
+  <div class="rstat">final 2–1 <span class="grade hit">FAVORITE HIT</span></div>
+  <div class="probbar"><span class="pH" style="width:36.4%"></span><span class="pD" style="width:29.5%"></span><span class="pA" style="width:34.2%"></span></div>
+  <div class="pcts"><span>36%</span><span>draw 29%</span><span>34%</span></div>
+  <div class="mktline">blind call: South Korea · market was 36 / 30 / 35 · odds +163 / +217 / +168 · lvr +0.00</div>
+</div><div class="match retro">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇦</span> Canada</span></div>
+    <div class="side R"><span class="tname">Bosnia and Herzegovina <span class="fl">🇧🇦</span></span></div>
+  </div>
+  <div class="rstat">final 1–1 <span class="grade miss">FAVORITE MISSED</span></div>
+  <div class="probbar"><span class="pH" style="width:58.0%"></span><span class="pD" style="width:24.3%"></span><span class="pA" style="width:17.7%"></span></div>
+  <div class="pcts"><span>58%</span><span>draw 24%</span><span>18%</span></div>
+  <div class="mktline">blind call: Canada · market was 53 / 26 / 22 · odds -128 / +264 / +333 · lvr +0.64</div>
+</div>
+  <div class="datehdr">2026-06-13</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇶🇦</span> Qatar</span><span class="meta">1511 · —</span></div>
+    <div class="side R"><span class="tname fav">Switzerland <span class="fl">🇨🇭</span></span><span class="meta">1883 · €310M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:5.7%"></span><span class="pD" style="width:13.7%"></span><span class="pA" style="width:80.5%"></span></div>
+  <div class="pcts"><span>6%</span><span>draw 14%</span><span>81%</span></div>
+  <div class="mktline">market 6 / 14 / 80 · Hard Rock +1500 / +575 / -500</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇷</span> Brazil</span><span class="meta">1977 · €810M</span></div>
+    <div class="side R"><span class="tname">Morocco <span class="fl">🇲🇦</span></span><span class="meta">1898 · €380M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:57.1%"></span><span class="pD" style="width:25.3%"></span><span class="pA" style="width:17.6%"></span></div>
+  <div class="pcts"><span>57%</span><span>draw 25%</span><span>18%</span></div>
+  <div class="mktline">market 58 / 25 / 17 · Hard Rock -160 / +275 / +450</div>
+</div><div class="datehdr">2026-06-14</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇭🇹</span> Haiti</span><span class="meta">1670 · €51M</span></div>
+    <div class="side R"><span class="tname fav">Scotland <span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span></span><span class="meta">1778 · €205M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:19.3%"></span><span class="pD" style="width:22.9%"></span><span class="pA" style="width:57.8%"></span></div>
+  <div class="pcts"><span>19%</span><span>draw 23%</span><span>58%</span></div>
+  <div class="mktline">market 19 / 22 / 59 · Hard Rock +400 / +325 / -165</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇦🇺</span> Australia</span><span class="meta">1811 · €34M</span></div>
+    <div class="side R"><span class="tname fav">Turkey <span class="fl">🇹🇷</span></span><span class="meta">1887 · €385M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:17.2%"></span><span class="pD" style="width:24.5%"></span><span class="pA" style="width:58.3%"></span></div>
+  <div class="pcts"><span>17%</span><span>draw 24%</span><span>58%</span></div>
+  <div class="mktline">market 16 / 24 / 60 · Hard Rock +500 / +300 / -175</div>
+</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇩🇪</span> Germany</span><span class="meta">1911 · €926M</span></div>
+    <div class="side R"><span class="tname">Curaçao <span class="fl">🇨🇼</span></span><span class="meta">1578 · €34M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:91.5%"></span><span class="pD" style="width:6.1%"></span><span class="pA" style="width:2.4%"></span></div>
+  <div class="pcts"><span>92%</span><span>draw 6%</span><span>2%</span></div>
+  <div class="mktline">market 93 / 5 / 2 · Hard Rock -3000 / +1750 / +4000<span class="evchip">EV +12% on draw @ +1400</span></div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
+    <div class="side R"><span class="tname">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:47.9%"></span><span class="pD" style="width:26.7%"></span><span class="pA" style="width:25.4%"></span></div>
+  <div class="pcts"><span>48%</span><span>draw 27%</span><span>25%</span></div>
+  <div class="mktline">market 48 / 26 / 25 · Hard Rock -105 / +260 / +275</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇮</span> Ivory Coast</span><span class="meta">1790 · €420M</span></div>
+    <div class="side R"><span class="tname fav">Ecuador <span class="fl">🇪🇨</span></span><span class="meta">1927 · €298M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:28.1%"></span><span class="pD" style="width:31.3%"></span><span class="pA" style="width:40.6%"></span></div>
+  <div class="pcts"><span>28%</span><span>draw 31%</span><span>41%</span></div>
+  <div class="mktline">market 29 / 33 / 38 · Hard Rock +225 / +190 / +150</div>
+</div><div class="datehdr">2026-06-15</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇸🇪</span> Sweden</span><span class="meta">1733 · €440M</span></div>
+    <div class="side R"><span class="tname">Tunisia <span class="fl">🇹🇳</span></span><span class="meta">1704 · €45M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:50.2%"></span><span class="pD" style="width:27.9%"></span><span class="pA" style="width:21.9%"></span></div>
+  <div class="pcts"><span>50%</span><span>draw 28%</span><span>22%</span></div>
+  <div class="mktline">market 50 / 28 / 22 · Hard Rock -110 / +240 / +325</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇸</span> Spain</span><span class="meta">2065 · €950M</span></div>
+    <div class="side R"><span class="tname">Cape Verde <span class="fl">🇨🇻</span></span><span class="meta">1629 · €43M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:88.0%"></span><span class="pD" style="width:8.8%"></span><span class="pA" style="width:3.2%"></span></div>
+  <div class="pcts"><span>88%</span><span>draw 9%</span><span>3%</span></div>
+  <div class="mktline">market 88 / 9 / 4 · Hard Rock -1100 / +1000 / +2500</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇪</span> Belgium</span><span class="meta">1903 · €454M</span></div>
+    <div class="side R"><span class="tname">Egypt <span class="fl">🇪🇬</span></span><span class="meta">1760 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:61.1%"></span><span class="pD" style="width:23.3%"></span><span class="pA" style="width:15.7%"></span></div>
+  <div class="pcts"><span>61%</span><span>draw 23%</span><span>16%</span></div>
+  <div class="mktline">market 59 / 24 / 17 · Hard Rock -165 / +300 / +475</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇸🇦</span> Saudi Arabia</span><span class="meta">1638 · —</span></div>
+    <div class="side R"><span class="tname fav">Uruguay <span class="fl">🇺🇾</span></span><span class="meta">1865 · €453M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:11.5%"></span><span class="pD" style="width:20.8%"></span><span class="pA" style="width:67.6%"></span></div>
+  <div class="pcts"><span>12%</span><span>draw 21%</span><span>68%</span></div>
+  <div class="mktline">market 11 / 21 / 68 · Hard Rock +750 / +350 / -250</div>
+</div><div class="datehdr">2026-06-16</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇮🇷</span> Iran</span><span class="meta">1825 · €22M</span></div>
+    <div class="side R"><span class="tname">New Zealand <span class="fl">🇳🇿</span></span><span class="meta">1645 · €23M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:56.4%"></span><span class="pD" style="width:25.7%"></span><span class="pA" style="width:17.9%"></span></div>
+  <div class="pcts"><span>56%</span><span>draw 26%</span><span>18%</span></div>
+  <div class="mktline">market 53 / 27 / 20 · Hard Rock -125 / +250 / +375</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇫🇷</span> France</span><span class="meta">2000 · €1.5B</span></div>
+    <div class="side R"><span class="tname">Senegal <span class="fl">🇸🇳</span></span><span class="meta">1831 · €391M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:65.8%"></span><span class="pD" style="width:22.0%"></span><span class="pA" style="width:12.2%"></span></div>
+  <div class="pcts"><span>66%</span><span>draw 22%</span><span>12%</span></div>
+  <div class="mktline">market 65 / 22 / 13 · Hard Rock -220 / +325 / +650</div>
+</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇮🇶</span> Iraq</span><span class="meta">1675 · —</span></div>
+    <div class="side R"><span class="tname fav">Norway <span class="fl">🇳🇴</span></span><span class="meta">1901 · €524M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:6.7%"></span><span class="pD" style="width:14.5%"></span><span class="pA" style="width:78.8%"></span></div>
+  <div class="pcts"><span>7%</span><span>draw 14%</span><span>79%</span></div>
+  <div class="mktline">market 6 / 14 / 80 · Hard Rock +1500 / +600 / -550<span class="evchip">EV +7% on home @ +960</span></div>
+</div><div class="datehdr">2026-06-17</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇦🇷</span> Argentina</span><span class="meta">2050 · €836M</span></div>
+    <div class="side R"><span class="tname">Algeria <span class="fl">🇩🇿</span></span><span class="meta">1842 · €199M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:70.2%"></span><span class="pD" style="width:20.0%"></span><span class="pA" style="width:9.8%"></span></div>
+  <div class="pcts"><span>70%</span><span>draw 20%</span><span>10%</span></div>
+  <div class="mktline">market 70 / 20 / 10 · Hard Rock -275 / +375 / +850</div>
+</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇦🇹</span> Austria</span><span class="meta">1836 · €271M</span></div>
+    <div class="side R"><span class="tname">Jordan <span class="fl">🇯🇴</span></span><span class="meta">1712 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:71.1%"></span><span class="pD" style="width:18.4%"></span><span class="pA" style="width:10.5%"></span></div>
+  <div class="pcts"><span>71%</span><span>draw 18%</span><span>11%</span></div>
+  <div class="mktline">market 73 / 17 / 10 · Hard Rock -325 / +450 / +900<span class="evchip">EV +5% on away @ +758</span></div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇵🇹</span> Portugal</span><span class="meta">1943 · €1.0B</span></div>
+    <div class="side R"><span class="tname">DR Congo <span class="fl">🇨🇩</span></span><span class="meta">1719 · €115M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:74.6%"></span><span class="pD" style="width:17.2%"></span><span class="pA" style="width:8.1%"></span></div>
+  <div class="pcts"><span>75%</span><span>draw 17%</span><span>8%</span></div>
+  <div class="mktline">market 74 / 17 / 9 · Hard Rock -350 / +450 / +1000</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</span><span class="meta">1962 · €1.3B</span></div>
+    <div class="side R"><span class="tname">Croatia <span class="fl">🇭🇷</span></span><span class="meta">1869 · €308M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:56.4%"></span><span class="pD" style="width:25.3%"></span><span class="pA" style="width:18.2%"></span></div>
+  <div class="pcts"><span>56%</span><span>draw 25%</span><span>18%</span></div>
+  <div class="mktline">market 55 / 26 / 19 · Hard Rock -135 / +275 / +400</div>
+</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇬🇭</span> Ghana</span><span class="meta">1612 · €181M</span></div>
+    <div class="side R"><span class="tname">Panama <span class="fl">🇵🇦</span></span><span class="meta">1754 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:40.1%"></span><span class="pD" style="width:28.2%"></span><span class="pA" style="width:31.7%"></span></div>
+  <div class="pcts"><span>40%</span><span>draw 28%</span><span>32%</span></div>
+  <div class="mktline">market 45 / 28 / 27 · Hard Rock +115 / +240 / +250<span class="evchip">EV +11% on away @ +278</span></div>
+</div><div class="datehdr">2026-06-18</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇺🇿</span> Uzbekistan</span><span class="meta">1747 · —</span></div>
+    <div class="side R"><span class="tname fav">Colombia <span class="fl">🇨🇴</span></span><span class="meta">1958 · €216M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:11.6%"></span><span class="pD" style="width:20.9%"></span><span class="pA" style="width:67.5%"></span></div>
+  <div class="pcts"><span>12%</span><span>draw 21%</span><span>67%</span></div>
+  <div class="mktline">market 11 / 21 / 68 · Hard Rock +750 / +350 / -250</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇿</span> Czech Republic</span><span class="meta">1730 · €126M</span></div>
+    <div class="side R"><span class="tname">South Africa <span class="fl">🇿🇦</span></span><span class="meta">1618 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:56.1%"></span><span class="pD" style="width:24.8%"></span><span class="pA" style="width:19.1%"></span></div>
+  <div class="pcts"><span>56%</span><span>draw 25%</span><span>19%</span></div>
+  <div class="mktline">market 55 / 25 / 20 · Hard Rock -140 / +275 / +375</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇭</span> Switzerland</span><span class="meta">1883 · €310M</span></div>
+    <div class="side R"><span class="tname">Bosnia and Herzegovina <span class="fl">🇧🇦</span></span><span class="meta">1646 · €77M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:63.9%"></span><span class="pD" style="width:22.4%"></span><span class="pA" style="width:13.7%"></span></div>
+  <div class="pcts"><span>64%</span><span>draw 22%</span><span>14%</span></div>
+  <div class="mktline">market 61 / 24 / 16 · composite -192 / +291 / +483</div><div class="travline">🛫 travel rule: Bosnia and Herzegovina ×0.825 → v3t 66 / 23 / 12</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇦</span> Canada</span><span class="meta">1812 · €146M</span></div>
+    <div class="side R"><span class="tname">Qatar <span class="fl">🇶🇦</span></span><span class="meta">1511 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:67.2%"></span><span class="pD" style="width:21.5%"></span><span class="pA" style="width:11.2%"></span></div>
+  <div class="pcts"><span>67%</span><span>draw 22%</span><span>11%</span></div>
+  <div class="mktline">market 62 / 24 / 14 · composite -208 / +285 / +563</div><div class="travline">🛫 travel rule: Canada ×0.825 → v3t 63 / 24 / 13</div>
+</div><div class="datehdr">2026-06-19</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇲🇽</span> Mexico</span><span class="meta">1880 · —</span></div>
+    <div class="side R"><span class="tname">South Korea <span class="fl">🇰🇷</span></span><span class="meta">1823 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:53.5%"></span><span class="pD" style="width:26.9%"></span><span class="pA" style="width:19.6%"></span></div>
+  <div class="pcts"><span>54%</span><span>draw 27%</span><span>20%</span></div>
+  <div class="mktline">market 51 / 28 / 21 · composite -128 / +231 / +333</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇺🇸</span> United States</span><span class="meta">1794 · €323M</span></div>
+    <div class="side R"><span class="tname">Australia <span class="fl">🇦🇺</span></span><span class="meta">1811 · €34M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:54.2%"></span><span class="pD" style="width:26.5%"></span><span class="pA" style="width:19.3%"></span></div>
+  <div class="pcts"><span>54%</span><span>draw 27%</span><span>19%</span></div>
+  <div class="mktline">market 54 / 26 / 20 · composite -143 / +250 / +363</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span> Scotland</span><span class="meta">1778 · €205M</span></div>
+    <div class="side R"><span class="tname fav">Morocco <span class="fl">🇲🇦</span></span><span class="meta">1898 · €380M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:25.2%"></span><span class="pD" style="width:28.6%"></span><span class="pA" style="width:46.2%"></span></div>
+  <div class="pcts"><span>25%</span><span>draw 29%</span><span>46%</span></div>
+  <div class="mktline">market 26 / 29 / 45 · composite +252 / +213 / +105</div>
+</div><div class="datehdr">2026-06-20</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇷</span> Brazil</span><span class="meta">1977 · €810M</span></div>
+    <div class="side R"><span class="tname">Haiti <span class="fl">🇭🇹</span></span><span class="meta">1670 · €51M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:88.1%"></span><span class="pD" style="width:8.6%"></span><span class="pA" style="width:3.2%"></span></div>
+  <div class="pcts"><span>88%</span><span>draw 9%</span><span>3%</span></div>
+  <div class="mktline">market 89 / 8 / 3 · composite -2500 / +1099 / +2913</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇹🇷</span> Turkey</span><span class="meta">1887 · €385M</span></div>
+    <div class="side R"><span class="tname">Paraguay <span class="fl">🇵🇾</span></span><span class="meta">1795 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:44.4%"></span><span class="pD" style="width:29.3%"></span><span class="pA" style="width:26.2%"></span></div>
+  <div class="pcts"><span>44%</span><span>draw 29%</span><span>26%</span></div>
+  <div class="mktline">market 42 / 30 / 28 · composite +119 / +205 / +229</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:58.9%"></span><span class="pD" style="width:23.7%"></span><span class="pA" style="width:17.4%"></span></div>
+  <div class="pcts"><span>59%</span><span>draw 24%</span><span>17%</span></div>
+  <div class="mktline">market 56 / 24 / 19 · composite -159 / +277 / +379</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇩🇪</span> Germany</span><span class="meta">1911 · €926M</span></div>
+    <div class="side R"><span class="tname">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:60.2%"></span><span class="pD" style="width:23.0%"></span><span class="pA" style="width:16.7%"></span></div>
+  <div class="pcts"><span>60%</span><span>draw 23%</span><span>17%</span></div>
+  <div class="mktline">market 60 / 23 / 17 · composite -185 / +300 / +431</div>
+</div><div class="datehdr">2026-06-21</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
+    <div class="side R"><span class="tname">Curaçao <span class="fl">🇨🇼</span></span><span class="meta">1578 · €34M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:77.3%"></span><span class="pD" style="width:16.0%"></span><span class="pA" style="width:6.7%"></span></div>
+  <div class="pcts"><span>77%</span><span>draw 16%</span><span>7%</span></div>
+  <div class="mktline">market 75 / 17 / 8 · composite -435 / +444 / +1083</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
+    <div class="side R"><span class="tname fav">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:19.4%"></span><span class="pD" style="width:27.1%"></span><span class="pA" style="width:53.5%"></span></div>
+  <div class="pcts"><span>19%</span><span>draw 27%</span><span>53%</span></div>
+  <div class="mktline">market 22 / 28 / 50 · composite +328 / +224 / -119</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇸</span> Spain</span><span class="meta">2065 · €950M</span></div>
+    <div class="side R"><span class="tname">Saudi Arabia <span class="fl">🇸🇦</span></span><span class="meta">1638 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:84.4%"></span><span class="pD" style="width:11.6%"></span><span class="pA" style="width:4.0%"></span></div>
+  <div class="pcts"><span>84%</span><span>draw 12%</span><span>4%</span></div>
+  <div class="mktline">market 84 / 12 / 4 · composite -909 / +663 / +2063</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇪</span> Belgium</span><span class="meta">1903 · €454M</span></div>
+    <div class="side R"><span class="tname">Iran <span class="fl">🇮🇷</span></span><span class="meta">1825 · €22M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:64.9%"></span><span class="pD" style="width:22.0%"></span><span class="pA" style="width:13.1%"></span></div>
+  <div class="pcts"><span>65%</span><span>draw 22%</span><span>13%</span></div>
+  <div class="mktline">market 65 / 21 / 13 · composite -244 / +330 / +598</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇺🇾</span> Uruguay</span><span class="meta">1865 · €453M</span></div>
+    <div class="side R"><span class="tname">Cape Verde <span class="fl">🇨🇻</span></span><span class="meta">1629 · €43M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:66.8%"></span><span class="pD" style="width:21.1%"></span><span class="pA" style="width:12.1%"></span></div>
+  <div class="pcts"><span>67%</span><span>draw 21%</span><span>12%</span></div>
+  <div class="mktline">market 64 / 22 / 14 · composite -233 / +323 / +563</div>
+</div><div class="datehdr">2026-06-22</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇳🇿</span> New Zealand</span><span class="meta">1645 · €23M</span></div>
+    <div class="side R"><span class="tname fav">Egypt <span class="fl">🇪🇬</span></span><span class="meta">1760 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:19.3%"></span><span class="pD" style="width:26.3%"></span><span class="pA" style="width:54.4%"></span></div>
+  <div class="pcts"><span>19%</span><span>draw 26%</span><span>54%</span></div>
+  <div class="mktline">market 19 / 26 / 55 · composite +389 / +247 / -147</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇦🇷</span> Argentina</span><span class="meta">2050 · €836M</span></div>
+    <div class="side R"><span class="tname">Austria <span class="fl">🇦🇹</span></span><span class="meta">1836 · €271M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:59.7%"></span><span class="pD" style="width:24.2%"></span><span class="pA" style="width:16.1%"></span></div>
+  <div class="pcts"><span>60%</span><span>draw 24%</span><span>16%</span></div>
+  <div class="mktline">market 56 / 26 / 19 · composite -154 / +260 / +392</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇫🇷</span> France</span><span class="meta">2000 · €1.5B</span></div>
+    <div class="side R"><span class="tname">Iraq <span class="fl">🇮🇶</span></span><span class="meta">1675 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:82.0%"></span><span class="pD" style="width:13.1%"></span><span class="pA" style="width:4.9%"></span></div>
+  <div class="pcts"><span>82%</span><span>draw 13%</span><span>5%</span></div>
+  <div class="mktline">market 82 / 13 / 5 · composite -833 / +600 / +1764</div>
+</div><div class="datehdr">2026-06-23</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇳🇴</span> Norway</span><span class="meta">1901 · €524M</span></div>
+    <div class="side R"><span class="tname">Senegal <span class="fl">🇸🇳</span></span><span class="meta">1831 · €391M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:47.2%"></span><span class="pD" style="width:27.6%"></span><span class="pA" style="width:25.2%"></span></div>
+  <div class="pcts"><span>47%</span><span>draw 28%</span><span>25%</span></div>
+  <div class="mktline">market 45 / 28 / 27 · composite +102 / +228 / +245</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇯🇴</span> Jordan</span><span class="meta">1712 · —</span></div>
+    <div class="side R"><span class="tname fav">Algeria <span class="fl">🇩🇿</span></span><span class="meta">1842 · €199M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:19.8%"></span><span class="pD" style="width:25.5%"></span><span class="pA" style="width:54.7%"></span></div>
+  <div class="pcts"><span>20%</span><span>draw 26%</span><span>55%</span></div>
+  <div class="mktline">market 20 / 26 / 54 · composite +356 / +255 / -145</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇵🇹</span> Portugal</span><span class="meta">1943 · €1.0B</span></div>
+    <div class="side R"><span class="tname">Uzbekistan <span class="fl">🇺🇿</span></span><span class="meta">1747 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:76.1%"></span><span class="pD" style="width:15.9%"></span><span class="pA" style="width:8.0%"></span></div>
+  <div class="pcts"><span>76%</span><span>draw 16%</span><span>8%</span></div>
+  <div class="mktline">market 77 / 15 / 8 · composite -500 / +501 / +1108</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</span><span class="meta">1962 · €1.3B</span></div>
+    <div class="side R"><span class="tname">Ghana <span class="fl">🇬🇭</span></span><span class="meta">1612 · €181M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:73.5%"></span><span class="pD" style="width:17.8%"></span><span class="pA" style="width:8.8%"></span></div>
+  <div class="pcts"><span>73%</span><span>draw 18%</span><span>9%</span></div>
+  <div class="mktline">market 70 / 19 / 11 · composite -323 / +382 / +757</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇵🇦</span> Panama</span><span class="meta">1754 · —</span></div>
+    <div class="side R"><span class="tname fav">Croatia <span class="fl">🇭🇷</span></span><span class="meta">1869 · €308M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:16.3%"></span><span class="pD" style="width:23.9%"></span><span class="pA" style="width:59.8%"></span></div>
+  <div class="pcts"><span>16%</span><span>draw 24%</span><span>60%</span></div>
+  <div class="mktline">market 15 / 23 / 62 · composite +519 / +291 / -208</div>
+</div><div class="datehdr">2026-06-24</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇴</span> Colombia</span><span class="meta">1958 · €216M</span></div>
+    <div class="side R"><span class="tname">DR Congo <span class="fl">🇨🇩</span></span><span class="meta">1719 · €115M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:64.5%"></span><span class="pD" style="width:22.7%"></span><span class="pA" style="width:12.8%"></span></div>
+  <div class="pcts"><span>65%</span><span>draw 23%</span><span>13%</span></div>
+  <div class="mktline">market 62 / 24 / 14 · composite -204 / +283 / +539</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇭</span> Switzerland</span><span class="meta">1883 · €310M</span></div>
+    <div class="side R"><span class="tname">Canada <span class="fl">🇨🇦</span></span><span class="meta">1812 · €146M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:47.9%"></span><span class="pD" style="width:27.0%"></span><span class="pA" style="width:25.1%"></span></div>
+  <div class="pcts"><span>48%</span><span>draw 27%</span><span>25%</span></div>
+  <div class="mktline">market 46 / 27 / 27 · composite +100 / +240 / +248</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇦</span> Bosnia and Herzegovina</span><span class="meta">1646 · €77M</span></div>
+    <div class="side R"><span class="tname">Qatar <span class="fl">🇶🇦</span></span><span class="meta">1511 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:52.7%"></span><span class="pD" style="width:26.7%"></span><span class="pA" style="width:20.6%"></span></div>
+  <div class="pcts"><span>53%</span><span>draw 27%</span><span>21%</span></div>
+  <div class="mktline">market 50 / 28 / 22 · composite -118 / +238 / +320</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇲🇦</span> Morocco</span><span class="meta">1898 · €380M</span></div>
+    <div class="side R"><span class="tname">Haiti <span class="fl">🇭🇹</span></span><span class="meta">1670 · €51M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:74.6%"></span><span class="pD" style="width:17.9%"></span><span class="pA" style="width:7.5%"></span></div>
+  <div class="pcts"><span>75%</span><span>draw 18%</span><span>7%</span></div>
+  <div class="mktline">market 74 / 18 / 8 · composite -400 / +413 / +1100</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span> Scotland</span><span class="meta">1778 · €205M</span></div>
+    <div class="side R"><span class="tname fav">Brazil <span class="fl">🇧🇷</span></span><span class="meta">1977 · €810M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:11.9%"></span><span class="pD" style="width:20.5%"></span><span class="pA" style="width:67.5%"></span></div>
+  <div class="pcts"><span>12%</span><span>draw 21%</span><span>68%</span></div>
+  <div class="mktline">market 12 / 20 / 68 · composite +688 / +351 / -286</div>
+</div><div class="datehdr">2026-06-25</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇿</span> Czech Republic</span><span class="meta">1730 · €126M</span></div>
+    <div class="side R"><span class="tname fav">Mexico <span class="fl">🇲🇽</span></span><span class="meta">1880 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:24.5%"></span><span class="pD" style="width:27.6%"></span><span class="pA" style="width:47.9%"></span></div>
+  <div class="pcts"><span>24%</span><span>draw 28%</span><span>48%</span></div>
+  <div class="mktline">market 25 / 28 / 46 · composite +263 / +225 / +100</div>
+</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇿🇦</span> South Africa</span><span class="meta">1618 · —</span></div>
+    <div class="side R"><span class="tname fav">South Korea <span class="fl">🇰🇷</span></span><span class="meta">1823 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:27.5%"></span><span class="pD" style="width:28.0%"></span><span class="pA" style="width:44.5%"></span></div>
+  <div class="pcts"><span>28%</span><span>draw 28%</span><span>44%</span></div>
+  <div class="mktline">market 31 / 29 / 40 · composite +198 / +218 / +133<span class="evchip">EV +4% on away @ +133 · fav 3% bar</span></div>
+</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
+    <div class="side R"><span class="tname fav">Germany <span class="fl">🇩🇪</span></span><span class="meta">1911 · €926M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:21.2%"></span><span class="pD" style="width:25.4%"></span><span class="pA" style="width:53.5%"></span></div>
+  <div class="pcts"><span>21%</span><span>draw 25%</span><span>53%</span></div>
+  <div class="mktline">market 18 / 24 / 58 · composite +413 / +285 / -169<span class="evchip">EV +8% on home @ +413</span></div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇼</span> Curaçao</span><span class="meta">1578 · €34M</span></div>
+    <div class="side R"><span class="tname fav">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:7.7%"></span><span class="pD" style="width:18.6%"></span><span class="pA" style="width:73.7%"></span></div>
+  <div class="pcts"><span>8%</span><span>draw 19%</span><span>74%</span></div>
+  <div class="mktline">market 7 / 18 / 74 · composite +1150 / +403 / -400</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
+    <div class="side R"><span class="tname fav">Netherlands <span class="fl">🇳🇱</span></span><span class="meta">1903 · €835M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:13.0%"></span><span class="pD" style="width:23.4%"></span><span class="pA" style="width:63.6%"></span></div>
+  <div class="pcts"><span>13%</span><span>draw 23%</span><span>64%</span></div>
+  <div class="mktline">market 14 / 24 / 62 · composite +563 / +288 / -200</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇯🇵</span> Japan</span><span class="meta">1908 · €222M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:46.0%"></span><span class="pD" style="width:27.8%"></span><span class="pA" style="width:26.2%"></span></div>
+  <div class="pcts"><span>46%</span><span>draw 28%</span><span>26%</span></div>
+  <div class="mktline">market 42 / 29 / 30 · composite +123 / +220 / +213</div>
+</div><div class="datehdr">2026-06-26</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇹🇷</span> Turkey</span><span class="meta">1887 · €385M</span></div>
+    <div class="side R"><span class="tname">United States <span class="fl">🇺🇸</span></span><span class="meta">1794 · €323M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:36.9%"></span><span class="pD" style="width:28.1%"></span><span class="pA" style="width:35.0%"></span></div>
+  <div class="pcts"><span>37%</span><span>draw 28%</span><span>35%</span></div>
+  <div class="mktline">market 33 / 28 / 39 · composite +188 / +235 / +140<span class="evchip">EV +6% on home @ +188</span></div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇵🇾</span> Paraguay</span><span class="meta">1795 · —</span></div>
+    <div class="side R"><span class="tname">Australia <span class="fl">🇦🇺</span></span><span class="meta">1811 · €34M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:43.2%"></span><span class="pD" style="width:28.8%"></span><span class="pA" style="width:28.0%"></span></div>
+  <div class="pcts"><span>43%</span><span>draw 29%</span><span>28%</span></div>
+  <div class="mktline">market 45 / 29 / 27 · composite +108 / +223 / +245</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇳🇴</span> Norway</span><span class="meta">1901 · €524M</span></div>
+    <div class="side R"><span class="tname fav">France <span class="fl">🇫🇷</span></span><span class="meta">2000 · €1.5B</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:19.2%"></span><span class="pD" style="width:25.9%"></span><span class="pA" style="width:54.9%"></span></div>
+  <div class="pcts"><span>19%</span><span>draw 26%</span><span>55%</span></div>
+  <div class="mktline">market 18 / 26 / 56 · composite +413 / +260 / -156</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇸🇳</span> Senegal</span><span class="meta">1831 · €391M</span></div>
+    <div class="side R"><span class="tname">Iraq <span class="fl">🇮🇶</span></span><span class="meta">1675 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:62.6%"></span><span class="pD" style="width:23.8%"></span><span class="pA" style="width:13.6%"></span></div>
+  <div class="pcts"><span>63%</span><span>draw 24%</span><span>14%</span></div>
+  <div class="mktline">market 62 / 24 / 14 · composite -200 / +280 / +575</div>
+</div><div class="datehdr">2026-06-27</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇺🇾</span> Uruguay</span><span class="meta">1865 · €453M</span></div>
+    <div class="side R"><span class="tname fav">Spain <span class="fl">🇪🇸</span></span><span class="meta">2065 · €950M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:15.9%"></span><span class="pD" style="width:23.7%"></span><span class="pA" style="width:60.4%"></span></div>
+  <div class="pcts"><span>16%</span><span>draw 24%</span><span>60%</span></div>
+  <div class="mktline">market 17 / 24 / 59 · composite +450 / +280 / -172</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇻</span> Cape Verde</span><span class="meta">1629 · €43M</span></div>
+    <div class="side R"><span class="tname fav">Saudi Arabia <span class="fl">🇸🇦</span></span><span class="meta">1638 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:27.3%"></span><span class="pD" style="width:29.6%"></span><span class="pA" style="width:43.1%"></span></div>
+  <div class="pcts"><span>27%</span><span>draw 30%</span><span>43%</span></div>
+  <div class="mktline">market 25 / 29 / 46 · composite +270 / +215 / +103</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇳🇿</span> New Zealand</span><span class="meta">1645 · €23M</span></div>
+    <div class="side R"><span class="tname fav">Belgium <span class="fl">🇧🇪</span></span><span class="meta">1903 · €454M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:5.2%"></span><span class="pD" style="width:16.1%"></span><span class="pA" style="width:78.7%"></span></div>
+  <div class="pcts"><span>5%</span><span>draw 16%</span><span>79%</span></div>
+  <div class="mktline">market 5 / 16 / 79 · composite +1650 / +475 / -556</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇬</span> Egypt</span><span class="meta">1760 · —</span></div>
+    <div class="side R"><span class="tname">Iran <span class="fl">🇮🇷</span></span><span class="meta">1825 · €22M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:40.1%"></span><span class="pD" style="width:29.8%"></span><span class="pA" style="width:30.1%"></span></div>
+  <div class="pcts"><span>40%</span><span>draw 30%</span><span>30%</span></div>
+  <div class="mktline">market 42 / 30 / 28 · composite +118 / +208 / +235</div>
+</div><div class="match flagged">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇵🇦</span> Panama</span><span class="meta">1754 · —</span></div>
+    <div class="side R"><span class="tname fav">England <span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span></span><span class="meta">1962 · €1.3B</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:5.9%"></span><span class="pD" style="width:15.0%"></span><span class="pA" style="width:79.1%"></span></div>
+  <div class="pcts"><span>6%</span><span>draw 15%</span><span>79%</span></div>
+  <div class="mktline">market 5 / 14 / 81 · composite +1750 / +563 / -714<span class="evchip">EV +10% on home @ +1750</span></div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇭🇷</span> Croatia</span><span class="meta">1869 · €308M</span></div>
+    <div class="side R"><span class="tname">Ghana <span class="fl">🇬🇭</span></span><span class="meta">1612 · €181M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:55.3%"></span><span class="pD" style="width:26.2%"></span><span class="pA" style="width:18.5%"></span></div>
+  <div class="pcts"><span>55%</span><span>draw 26%</span><span>19%</span></div>
+  <div class="mktline">market 50 / 28 / 22 · composite -118 / +230 / +322</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇴</span> Colombia</span><span class="meta">1958 · €216M</span></div>
+    <div class="side R"><span class="tname fav">Portugal <span class="fl">🇵🇹</span></span><span class="meta">1943 · €1.0B</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:30.0%"></span><span class="pD" style="width:28.5%"></span><span class="pA" style="width:41.5%"></span></div>
+  <div class="pcts"><span>30%</span><span>draw 28%</span><span>42%</span></div>
+  <div class="mktline">market 29 / 28 / 43 · composite +213 / +217 / +107</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇩</span> DR Congo</span><span class="meta">1719 · €115M</span></div>
+    <div class="side R"><span class="tname">Uzbekistan <span class="fl">🇺🇿</span></span><span class="meta">1747 · —</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:43.0%"></span><span class="pD" style="width:29.3%"></span><span class="pA" style="width:27.7%"></span></div>
+  <div class="pcts"><span>43%</span><span>draw 29%</span><span>28%</span></div>
+  <div class="mktline">market 44 / 29 / 26 · composite +108 / +215 / +253</div>
+</div><div class="datehdr">2026-06-28</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇯🇴</span> Jordan</span><span class="meta">1712 · —</span></div>
+    <div class="side R"><span class="tname fav">Argentina <span class="fl">🇦🇷</span></span><span class="meta">2050 · €836M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:4.9%"></span><span class="pD" style="width:14.0%"></span><span class="pA" style="width:81.1%"></span></div>
+  <div class="pcts"><span>5%</span><span>draw 14%</span><span>81%</span></div>
+  <div class="mktline">market 5 / 14 / 81 · composite +1850 / +550 / -714</div>
+</div><div class="match">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇩🇿</span> Algeria</span><span class="meta">1842 · €199M</span></div>
+    <div class="side R"><span class="tname fav">Austria <span class="fl">🇦🇹</span></span><span class="meta">1836 · €271M</span></div>
+  </div>
+  <div class="probbar"><span class="pH" style="width:33.5%"></span><span class="pD" style="width:28.8%"></span><span class="pA" style="width:37.7%"></span></div>
+  <div class="pcts"><span>34%</span><span>draw 29%</span><span>38%</span></div>
+  <div class="mktline">market 31 / 29 / 40 · composite +198 / +223 / +130</div>
+</div>
+  </div>
+
+  <div id="tabCalc" style="display:none">
+  <div class="banner"><b>Same games, your prices.</b> Every card is prefilled with the frozen composite odds — overwrite the three boxes with what <b>your book</b> shows and hit Calculate. The verdict de-vigs your prices, pools them with v3's frozen model probs at the learned 0.18 weight, and answers: which side clears the EV bar — 5%, or 3% when the pick is the market favorite —, and what 0.75 Kelly stakes from the bankroll below. Most games should say NO BET — that is the system working.</div>
+  <div class="bankbar">
+    <div><label for="bank">Bankroll ($) — used by every Calculate button</label><input id="bank" inputmode="decimal" value="1000"></div>
+    <div class="hint">Fun-money number you can lose. Stakes scale to it; the EV bar (5%, 3% on the favorite) and 0.75 Kelly match the official paper card exactly. 0.75 Kelly is aggressive — expect violent swings.</div>
+  </div>
+  <div class="datehdr">Already played — what it would have said</div><div class="legend">Same math, known results. Finished games grade the verdict against the final score; the live one is exhibition only. None of these touch the official paper card.</div><div class="match calc retro">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇲🇽</span> Mexico</span></div>
+    <div class="side R"><span class="tname">South Africa <span class="fl">🇿🇦</span></span></div>
+  </div>
+  <div class="rstat">final 2–0 · pre-match odds prefilled</div>
+  <div class="orow">
+    <div><label for="oh0">Home</label><input id="oh0" inputmode="text" value="-213"></div>
+    <div><label for="od0">Draw</label><input id="od0" inputmode="text" value="+311"></div>
+    <div><label for="oa0">Away</label><input id="oa0" inputmode="text" value="+579"></div>
+    <div class="bcell"><button class="go" data-i="0">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out0"></div>
+</div><div class="match calc retro">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇰🇷</span> South Korea</span></div>
+    <div class="side R"><span class="tname">Czech Republic <span class="fl">🇨🇿</span></span></div>
+  </div>
+  <div class="rstat">final 2–1 · pre-match odds prefilled</div>
+  <div class="orow">
+    <div><label for="oh1">Home</label><input id="oh1" inputmode="text" value="+163"></div>
+    <div><label for="od1">Draw</label><input id="od1" inputmode="text" value="+217"></div>
+    <div><label for="oa1">Away</label><input id="oa1" inputmode="text" value="+168"></div>
+    <div class="bcell"><button class="go" data-i="1">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out1"></div>
+</div><div class="match calc retro">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇦</span> Canada</span></div>
+    <div class="side R"><span class="tname">Bosnia and Herzegovina <span class="fl">🇧🇦</span></span></div>
+  </div>
+  <div class="rstat">final 1–1 · pre-match odds prefilled</div>
+  <div class="orow">
+    <div><label for="oh2">Home</label><input id="oh2" inputmode="text" value="-128"></div>
+    <div><label for="od2">Draw</label><input id="od2" inputmode="text" value="+264"></div>
+    <div><label for="oa2">Away</label><input id="oa2" inputmode="text" value="+333"></div>
+    <div class="bcell"><button class="go" data-i="2">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out2"></div>
+</div>
+  <div class="datehdr">2026-06-13</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇶🇦</span> Qatar</span><span class="meta">1511 · —</span></div>
+    <div class="side R"><span class="tname fav">Switzerland <span class="fl">🇨🇭</span></span><span class="meta">1883 · €310M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh3">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh3" inputmode="text" value="+1500"></div>
+    <div><label for="od3">Draw</label><input id="od3" inputmode="text" value="+575"></div>
+    <div><label for="oa3">Away</label><input id="oa3" inputmode="text" value="-500"></div>
+    <div class="bcell"><button class="go" data-i="3">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out3"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇷</span> Brazil</span><span class="meta">1977 · €810M</span></div>
+    <div class="side R"><span class="tname">Morocco <span class="fl">🇲🇦</span></span><span class="meta">1898 · €380M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh4">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh4" inputmode="text" value="-160"></div>
+    <div><label for="od4">Draw</label><input id="od4" inputmode="text" value="+275"></div>
+    <div><label for="oa4">Away</label><input id="oa4" inputmode="text" value="+450"></div>
+    <div class="bcell"><button class="go" data-i="4">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out4"></div>
+</div><div class="datehdr">2026-06-14</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇭🇹</span> Haiti</span><span class="meta">1670 · €51M</span></div>
+    <div class="side R"><span class="tname fav">Scotland <span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span></span><span class="meta">1778 · €205M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh5">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh5" inputmode="text" value="+400"></div>
+    <div><label for="od5">Draw</label><input id="od5" inputmode="text" value="+325"></div>
+    <div><label for="oa5">Away</label><input id="oa5" inputmode="text" value="-165"></div>
+    <div class="bcell"><button class="go" data-i="5">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out5"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇦🇺</span> Australia</span><span class="meta">1811 · €34M</span></div>
+    <div class="side R"><span class="tname fav">Turkey <span class="fl">🇹🇷</span></span><span class="meta">1887 · €385M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh6">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh6" inputmode="text" value="+500"></div>
+    <div><label for="od6">Draw</label><input id="od6" inputmode="text" value="+300"></div>
+    <div><label for="oa6">Away</label><input id="oa6" inputmode="text" value="-175"></div>
+    <div class="bcell"><button class="go" data-i="6">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out6"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇩🇪</span> Germany</span><span class="meta">1911 · €926M</span></div>
+    <div class="side R"><span class="tname">Curaçao <span class="fl">🇨🇼</span></span><span class="meta">1578 · €34M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh7">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh7" inputmode="text" value="-3000"></div>
+    <div><label for="od7">Draw</label><input id="od7" inputmode="text" value="+1750"></div>
+    <div><label for="oa7">Away</label><input id="oa7" inputmode="text" value="+4000"></div>
+    <div class="bcell"><button class="go" data-i="7">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out7"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
+    <div class="side R"><span class="tname">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh8">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh8" inputmode="text" value="-105"></div>
+    <div><label for="od8">Draw</label><input id="od8" inputmode="text" value="+260"></div>
+    <div><label for="oa8">Away</label><input id="oa8" inputmode="text" value="+275"></div>
+    <div class="bcell"><button class="go" data-i="8">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out8"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇮</span> Ivory Coast</span><span class="meta">1790 · €420M</span></div>
+    <div class="side R"><span class="tname fav">Ecuador <span class="fl">🇪🇨</span></span><span class="meta">1927 · €298M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh9">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh9" inputmode="text" value="+225"></div>
+    <div><label for="od9">Draw</label><input id="od9" inputmode="text" value="+190"></div>
+    <div><label for="oa9">Away</label><input id="oa9" inputmode="text" value="+150"></div>
+    <div class="bcell"><button class="go" data-i="9">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out9"></div>
+</div><div class="datehdr">2026-06-15</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇸🇪</span> Sweden</span><span class="meta">1733 · €440M</span></div>
+    <div class="side R"><span class="tname">Tunisia <span class="fl">🇹🇳</span></span><span class="meta">1704 · €45M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh10">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh10" inputmode="text" value="-110"></div>
+    <div><label for="od10">Draw</label><input id="od10" inputmode="text" value="+240"></div>
+    <div><label for="oa10">Away</label><input id="oa10" inputmode="text" value="+325"></div>
+    <div class="bcell"><button class="go" data-i="10">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out10"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇸</span> Spain</span><span class="meta">2065 · €950M</span></div>
+    <div class="side R"><span class="tname">Cape Verde <span class="fl">🇨🇻</span></span><span class="meta">1629 · €43M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh11">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh11" inputmode="text" value="-1100"></div>
+    <div><label for="od11">Draw</label><input id="od11" inputmode="text" value="+1000"></div>
+    <div><label for="oa11">Away</label><input id="oa11" inputmode="text" value="+2500"></div>
+    <div class="bcell"><button class="go" data-i="11">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out11"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇪</span> Belgium</span><span class="meta">1903 · €454M</span></div>
+    <div class="side R"><span class="tname">Egypt <span class="fl">🇪🇬</span></span><span class="meta">1760 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh12">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh12" inputmode="text" value="-165"></div>
+    <div><label for="od12">Draw</label><input id="od12" inputmode="text" value="+300"></div>
+    <div><label for="oa12">Away</label><input id="oa12" inputmode="text" value="+475"></div>
+    <div class="bcell"><button class="go" data-i="12">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out12"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇸🇦</span> Saudi Arabia</span><span class="meta">1638 · —</span></div>
+    <div class="side R"><span class="tname fav">Uruguay <span class="fl">🇺🇾</span></span><span class="meta">1865 · €453M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh13">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh13" inputmode="text" value="+750"></div>
+    <div><label for="od13">Draw</label><input id="od13" inputmode="text" value="+350"></div>
+    <div><label for="oa13">Away</label><input id="oa13" inputmode="text" value="-250"></div>
+    <div class="bcell"><button class="go" data-i="13">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out13"></div>
+</div><div class="datehdr">2026-06-16</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇮🇷</span> Iran</span><span class="meta">1825 · €22M</span></div>
+    <div class="side R"><span class="tname">New Zealand <span class="fl">🇳🇿</span></span><span class="meta">1645 · €23M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh14">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh14" inputmode="text" value="-125"></div>
+    <div><label for="od14">Draw</label><input id="od14" inputmode="text" value="+250"></div>
+    <div><label for="oa14">Away</label><input id="oa14" inputmode="text" value="+375"></div>
+    <div class="bcell"><button class="go" data-i="14">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out14"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇫🇷</span> France</span><span class="meta">2000 · €1.5B</span></div>
+    <div class="side R"><span class="tname">Senegal <span class="fl">🇸🇳</span></span><span class="meta">1831 · €391M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh15">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh15" inputmode="text" value="-220"></div>
+    <div><label for="od15">Draw</label><input id="od15" inputmode="text" value="+325"></div>
+    <div><label for="oa15">Away</label><input id="oa15" inputmode="text" value="+650"></div>
+    <div class="bcell"><button class="go" data-i="15">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out15"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇮🇶</span> Iraq</span><span class="meta">1675 · —</span></div>
+    <div class="side R"><span class="tname fav">Norway <span class="fl">🇳🇴</span></span><span class="meta">1901 · €524M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh16">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh16" inputmode="text" value="+1500"></div>
+    <div><label for="od16">Draw</label><input id="od16" inputmode="text" value="+600"></div>
+    <div><label for="oa16">Away</label><input id="oa16" inputmode="text" value="-550"></div>
+    <div class="bcell"><button class="go" data-i="16">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out16"></div>
+</div><div class="datehdr">2026-06-17</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇦🇷</span> Argentina</span><span class="meta">2050 · €836M</span></div>
+    <div class="side R"><span class="tname">Algeria <span class="fl">🇩🇿</span></span><span class="meta">1842 · €199M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh17">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh17" inputmode="text" value="-275"></div>
+    <div><label for="od17">Draw</label><input id="od17" inputmode="text" value="+375"></div>
+    <div><label for="oa17">Away</label><input id="oa17" inputmode="text" value="+850"></div>
+    <div class="bcell"><button class="go" data-i="17">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out17"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇦🇹</span> Austria</span><span class="meta">1836 · €271M</span></div>
+    <div class="side R"><span class="tname">Jordan <span class="fl">🇯🇴</span></span><span class="meta">1712 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh18">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh18" inputmode="text" value="-325"></div>
+    <div><label for="od18">Draw</label><input id="od18" inputmode="text" value="+450"></div>
+    <div><label for="oa18">Away</label><input id="oa18" inputmode="text" value="+900"></div>
+    <div class="bcell"><button class="go" data-i="18">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out18"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇵🇹</span> Portugal</span><span class="meta">1943 · €1.0B</span></div>
+    <div class="side R"><span class="tname">DR Congo <span class="fl">🇨🇩</span></span><span class="meta">1719 · €115M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh19">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh19" inputmode="text" value="-350"></div>
+    <div><label for="od19">Draw</label><input id="od19" inputmode="text" value="+450"></div>
+    <div><label for="oa19">Away</label><input id="oa19" inputmode="text" value="+1000"></div>
+    <div class="bcell"><button class="go" data-i="19">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out19"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</span><span class="meta">1962 · €1.3B</span></div>
+    <div class="side R"><span class="tname">Croatia <span class="fl">🇭🇷</span></span><span class="meta">1869 · €308M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh20">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh20" inputmode="text" value="-135"></div>
+    <div><label for="od20">Draw</label><input id="od20" inputmode="text" value="+275"></div>
+    <div><label for="oa20">Away</label><input id="oa20" inputmode="text" value="+400"></div>
+    <div class="bcell"><button class="go" data-i="20">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out20"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇬🇭</span> Ghana</span><span class="meta">1612 · €181M</span></div>
+    <div class="side R"><span class="tname">Panama <span class="fl">🇵🇦</span></span><span class="meta">1754 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh21">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh21" inputmode="text" value="+115"></div>
+    <div><label for="od21">Draw</label><input id="od21" inputmode="text" value="+240"></div>
+    <div><label for="oa21">Away</label><input id="oa21" inputmode="text" value="+250"></div>
+    <div class="bcell"><button class="go" data-i="21">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out21"></div>
+</div><div class="datehdr">2026-06-18</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇺🇿</span> Uzbekistan</span><span class="meta">1747 · —</span></div>
+    <div class="side R"><span class="tname fav">Colombia <span class="fl">🇨🇴</span></span><span class="meta">1958 · €216M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh22">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh22" inputmode="text" value="+750"></div>
+    <div><label for="od22">Draw</label><input id="od22" inputmode="text" value="+350"></div>
+    <div><label for="oa22">Away</label><input id="oa22" inputmode="text" value="-250"></div>
+    <div class="bcell"><button class="go" data-i="22">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out22"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇿</span> Czech Republic</span><span class="meta">1730 · €126M</span></div>
+    <div class="side R"><span class="tname">South Africa <span class="fl">🇿🇦</span></span><span class="meta">1618 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh23">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh23" inputmode="text" value="-140"></div>
+    <div><label for="od23">Draw</label><input id="od23" inputmode="text" value="+275"></div>
+    <div><label for="oa23">Away</label><input id="oa23" inputmode="text" value="+375"></div>
+    <div class="bcell"><button class="go" data-i="23">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out23"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇭</span> Switzerland</span><span class="meta">1883 · €310M</span></div>
+    <div class="side R"><span class="tname">Bosnia and Herzegovina <span class="fl">🇧🇦</span></span><span class="meta">1646 · €77M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh24">Home <span class="srcbadge">composite</span></label><input id="oh24" inputmode="text" value="-192"></div>
+    <div><label for="od24">Draw</label><input id="od24" inputmode="text" value="+291"></div>
+    <div><label for="oa24">Away</label><input id="oa24" inputmode="text" value="+483"></div>
+    <div class="bcell"><button class="go" data-i="24">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out24"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇦</span> Canada</span><span class="meta">1812 · €146M</span></div>
+    <div class="side R"><span class="tname">Qatar <span class="fl">🇶🇦</span></span><span class="meta">1511 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh25">Home <span class="srcbadge">composite</span></label><input id="oh25" inputmode="text" value="-208"></div>
+    <div><label for="od25">Draw</label><input id="od25" inputmode="text" value="+285"></div>
+    <div><label for="oa25">Away</label><input id="oa25" inputmode="text" value="+563"></div>
+    <div class="bcell"><button class="go" data-i="25">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out25"></div>
+</div><div class="datehdr">2026-06-19</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇲🇽</span> Mexico</span><span class="meta">1880 · —</span></div>
+    <div class="side R"><span class="tname">South Korea <span class="fl">🇰🇷</span></span><span class="meta">1823 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh26">Home <span class="srcbadge">composite</span></label><input id="oh26" inputmode="text" value="-128"></div>
+    <div><label for="od26">Draw</label><input id="od26" inputmode="text" value="+231"></div>
+    <div><label for="oa26">Away</label><input id="oa26" inputmode="text" value="+333"></div>
+    <div class="bcell"><button class="go" data-i="26">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out26"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇺🇸</span> United States</span><span class="meta">1794 · €323M</span></div>
+    <div class="side R"><span class="tname">Australia <span class="fl">🇦🇺</span></span><span class="meta">1811 · €34M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh27">Home <span class="srcbadge">composite</span></label><input id="oh27" inputmode="text" value="-143"></div>
+    <div><label for="od27">Draw</label><input id="od27" inputmode="text" value="+250"></div>
+    <div><label for="oa27">Away</label><input id="oa27" inputmode="text" value="+363"></div>
+    <div class="bcell"><button class="go" data-i="27">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out27"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span> Scotland</span><span class="meta">1778 · €205M</span></div>
+    <div class="side R"><span class="tname fav">Morocco <span class="fl">🇲🇦</span></span><span class="meta">1898 · €380M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh28">Home <span class="srcbadge">composite</span></label><input id="oh28" inputmode="text" value="+252"></div>
+    <div><label for="od28">Draw</label><input id="od28" inputmode="text" value="+213"></div>
+    <div><label for="oa28">Away</label><input id="oa28" inputmode="text" value="+105"></div>
+    <div class="bcell"><button class="go" data-i="28">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out28"></div>
+</div><div class="datehdr">2026-06-20</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇷</span> Brazil</span><span class="meta">1977 · €810M</span></div>
+    <div class="side R"><span class="tname">Haiti <span class="fl">🇭🇹</span></span><span class="meta">1670 · €51M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh29">Home <span class="srcbadge">composite</span></label><input id="oh29" inputmode="text" value="-2500"></div>
+    <div><label for="od29">Draw</label><input id="od29" inputmode="text" value="+1099"></div>
+    <div><label for="oa29">Away</label><input id="oa29" inputmode="text" value="+2913"></div>
+    <div class="bcell"><button class="go" data-i="29">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out29"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇹🇷</span> Turkey</span><span class="meta">1887 · €385M</span></div>
+    <div class="side R"><span class="tname">Paraguay <span class="fl">🇵🇾</span></span><span class="meta">1795 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh30">Home <span class="srcbadge">composite</span></label><input id="oh30" inputmode="text" value="+119"></div>
+    <div><label for="od30">Draw</label><input id="od30" inputmode="text" value="+205"></div>
+    <div><label for="oa30">Away</label><input id="oa30" inputmode="text" value="+229"></div>
+    <div class="bcell"><button class="go" data-i="30">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out30"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh31">Home <span class="srcbadge">composite</span></label><input id="oh31" inputmode="text" value="-159"></div>
+    <div><label for="od31">Draw</label><input id="od31" inputmode="text" value="+277"></div>
+    <div><label for="oa31">Away</label><input id="oa31" inputmode="text" value="+379"></div>
+    <div class="bcell"><button class="go" data-i="31">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out31"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇩🇪</span> Germany</span><span class="meta">1911 · €926M</span></div>
+    <div class="side R"><span class="tname">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh32">Home <span class="srcbadge">composite</span></label><input id="oh32" inputmode="text" value="-185"></div>
+    <div><label for="od32">Draw</label><input id="od32" inputmode="text" value="+300"></div>
+    <div><label for="oa32">Away</label><input id="oa32" inputmode="text" value="+431"></div>
+    <div class="bcell"><button class="go" data-i="32">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out32"></div>
+</div><div class="datehdr">2026-06-21</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
+    <div class="side R"><span class="tname">Curaçao <span class="fl">🇨🇼</span></span><span class="meta">1578 · €34M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh33">Home <span class="srcbadge">composite</span></label><input id="oh33" inputmode="text" value="-435"></div>
+    <div><label for="od33">Draw</label><input id="od33" inputmode="text" value="+444"></div>
+    <div><label for="oa33">Away</label><input id="oa33" inputmode="text" value="+1083"></div>
+    <div class="bcell"><button class="go" data-i="33">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out33"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
+    <div class="side R"><span class="tname fav">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh34">Home <span class="srcbadge">composite</span></label><input id="oh34" inputmode="text" value="+328"></div>
+    <div><label for="od34">Draw</label><input id="od34" inputmode="text" value="+224"></div>
+    <div><label for="oa34">Away</label><input id="oa34" inputmode="text" value="-119"></div>
+    <div class="bcell"><button class="go" data-i="34">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out34"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇸</span> Spain</span><span class="meta">2065 · €950M</span></div>
+    <div class="side R"><span class="tname">Saudi Arabia <span class="fl">🇸🇦</span></span><span class="meta">1638 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh35">Home <span class="srcbadge">composite</span></label><input id="oh35" inputmode="text" value="-909"></div>
+    <div><label for="od35">Draw</label><input id="od35" inputmode="text" value="+663"></div>
+    <div><label for="oa35">Away</label><input id="oa35" inputmode="text" value="+2063"></div>
+    <div class="bcell"><button class="go" data-i="35">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out35"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇪</span> Belgium</span><span class="meta">1903 · €454M</span></div>
+    <div class="side R"><span class="tname">Iran <span class="fl">🇮🇷</span></span><span class="meta">1825 · €22M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh36">Home <span class="srcbadge">composite</span></label><input id="oh36" inputmode="text" value="-244"></div>
+    <div><label for="od36">Draw</label><input id="od36" inputmode="text" value="+330"></div>
+    <div><label for="oa36">Away</label><input id="oa36" inputmode="text" value="+598"></div>
+    <div class="bcell"><button class="go" data-i="36">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out36"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇺🇾</span> Uruguay</span><span class="meta">1865 · €453M</span></div>
+    <div class="side R"><span class="tname">Cape Verde <span class="fl">🇨🇻</span></span><span class="meta">1629 · €43M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh37">Home <span class="srcbadge">composite</span></label><input id="oh37" inputmode="text" value="-233"></div>
+    <div><label for="od37">Draw</label><input id="od37" inputmode="text" value="+323"></div>
+    <div><label for="oa37">Away</label><input id="oa37" inputmode="text" value="+563"></div>
+    <div class="bcell"><button class="go" data-i="37">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out37"></div>
+</div><div class="datehdr">2026-06-22</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇳🇿</span> New Zealand</span><span class="meta">1645 · €23M</span></div>
+    <div class="side R"><span class="tname fav">Egypt <span class="fl">🇪🇬</span></span><span class="meta">1760 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh38">Home <span class="srcbadge">composite</span></label><input id="oh38" inputmode="text" value="+389"></div>
+    <div><label for="od38">Draw</label><input id="od38" inputmode="text" value="+247"></div>
+    <div><label for="oa38">Away</label><input id="oa38" inputmode="text" value="-147"></div>
+    <div class="bcell"><button class="go" data-i="38">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out38"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇦🇷</span> Argentina</span><span class="meta">2050 · €836M</span></div>
+    <div class="side R"><span class="tname">Austria <span class="fl">🇦🇹</span></span><span class="meta">1836 · €271M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh39">Home <span class="srcbadge">composite</span></label><input id="oh39" inputmode="text" value="-154"></div>
+    <div><label for="od39">Draw</label><input id="od39" inputmode="text" value="+260"></div>
+    <div><label for="oa39">Away</label><input id="oa39" inputmode="text" value="+392"></div>
+    <div class="bcell"><button class="go" data-i="39">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out39"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇫🇷</span> France</span><span class="meta">2000 · €1.5B</span></div>
+    <div class="side R"><span class="tname">Iraq <span class="fl">🇮🇶</span></span><span class="meta">1675 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh40">Home <span class="srcbadge">composite</span></label><input id="oh40" inputmode="text" value="-833"></div>
+    <div><label for="od40">Draw</label><input id="od40" inputmode="text" value="+600"></div>
+    <div><label for="oa40">Away</label><input id="oa40" inputmode="text" value="+1764"></div>
+    <div class="bcell"><button class="go" data-i="40">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out40"></div>
+</div><div class="datehdr">2026-06-23</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇳🇴</span> Norway</span><span class="meta">1901 · €524M</span></div>
+    <div class="side R"><span class="tname">Senegal <span class="fl">🇸🇳</span></span><span class="meta">1831 · €391M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh41">Home <span class="srcbadge">composite</span></label><input id="oh41" inputmode="text" value="+102"></div>
+    <div><label for="od41">Draw</label><input id="od41" inputmode="text" value="+228"></div>
+    <div><label for="oa41">Away</label><input id="oa41" inputmode="text" value="+245"></div>
+    <div class="bcell"><button class="go" data-i="41">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out41"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇯🇴</span> Jordan</span><span class="meta">1712 · —</span></div>
+    <div class="side R"><span class="tname fav">Algeria <span class="fl">🇩🇿</span></span><span class="meta">1842 · €199M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh42">Home <span class="srcbadge">composite</span></label><input id="oh42" inputmode="text" value="+356"></div>
+    <div><label for="od42">Draw</label><input id="od42" inputmode="text" value="+255"></div>
+    <div><label for="oa42">Away</label><input id="oa42" inputmode="text" value="-145"></div>
+    <div class="bcell"><button class="go" data-i="42">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out42"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇵🇹</span> Portugal</span><span class="meta">1943 · €1.0B</span></div>
+    <div class="side R"><span class="tname">Uzbekistan <span class="fl">🇺🇿</span></span><span class="meta">1747 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh43">Home <span class="srcbadge">composite</span></label><input id="oh43" inputmode="text" value="-500"></div>
+    <div><label for="od43">Draw</label><input id="od43" inputmode="text" value="+501"></div>
+    <div><label for="oa43">Away</label><input id="oa43" inputmode="text" value="+1108"></div>
+    <div class="bcell"><button class="go" data-i="43">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out43"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</span><span class="meta">1962 · €1.3B</span></div>
+    <div class="side R"><span class="tname">Ghana <span class="fl">🇬🇭</span></span><span class="meta">1612 · €181M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh44">Home <span class="srcbadge">composite</span></label><input id="oh44" inputmode="text" value="-323"></div>
+    <div><label for="od44">Draw</label><input id="od44" inputmode="text" value="+382"></div>
+    <div><label for="oa44">Away</label><input id="oa44" inputmode="text" value="+757"></div>
+    <div class="bcell"><button class="go" data-i="44">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out44"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇵🇦</span> Panama</span><span class="meta">1754 · —</span></div>
+    <div class="side R"><span class="tname fav">Croatia <span class="fl">🇭🇷</span></span><span class="meta">1869 · €308M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh45">Home <span class="srcbadge">composite</span></label><input id="oh45" inputmode="text" value="+519"></div>
+    <div><label for="od45">Draw</label><input id="od45" inputmode="text" value="+291"></div>
+    <div><label for="oa45">Away</label><input id="oa45" inputmode="text" value="-208"></div>
+    <div class="bcell"><button class="go" data-i="45">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out45"></div>
+</div><div class="datehdr">2026-06-24</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇴</span> Colombia</span><span class="meta">1958 · €216M</span></div>
+    <div class="side R"><span class="tname">DR Congo <span class="fl">🇨🇩</span></span><span class="meta">1719 · €115M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh46">Home <span class="srcbadge">composite</span></label><input id="oh46" inputmode="text" value="-204"></div>
+    <div><label for="od46">Draw</label><input id="od46" inputmode="text" value="+283"></div>
+    <div><label for="oa46">Away</label><input id="oa46" inputmode="text" value="+539"></div>
+    <div class="bcell"><button class="go" data-i="46">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out46"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇭</span> Switzerland</span><span class="meta">1883 · €310M</span></div>
+    <div class="side R"><span class="tname">Canada <span class="fl">🇨🇦</span></span><span class="meta">1812 · €146M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh47">Home <span class="srcbadge">composite</span></label><input id="oh47" inputmode="text" value="+100"></div>
+    <div><label for="od47">Draw</label><input id="od47" inputmode="text" value="+240"></div>
+    <div><label for="oa47">Away</label><input id="oa47" inputmode="text" value="+248"></div>
+    <div class="bcell"><button class="go" data-i="47">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out47"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇧🇦</span> Bosnia and Herzegovina</span><span class="meta">1646 · €77M</span></div>
+    <div class="side R"><span class="tname">Qatar <span class="fl">🇶🇦</span></span><span class="meta">1511 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh48">Home <span class="srcbadge">composite</span></label><input id="oh48" inputmode="text" value="-118"></div>
+    <div><label for="od48">Draw</label><input id="od48" inputmode="text" value="+238"></div>
+    <div><label for="oa48">Away</label><input id="oa48" inputmode="text" value="+320"></div>
+    <div class="bcell"><button class="go" data-i="48">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out48"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇲🇦</span> Morocco</span><span class="meta">1898 · €380M</span></div>
+    <div class="side R"><span class="tname">Haiti <span class="fl">🇭🇹</span></span><span class="meta">1670 · €51M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh49">Home <span class="srcbadge">composite</span></label><input id="oh49" inputmode="text" value="-400"></div>
+    <div><label for="od49">Draw</label><input id="od49" inputmode="text" value="+413"></div>
+    <div><label for="oa49">Away</label><input id="oa49" inputmode="text" value="+1100"></div>
+    <div class="bcell"><button class="go" data-i="49">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out49"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span> Scotland</span><span class="meta">1778 · €205M</span></div>
+    <div class="side R"><span class="tname fav">Brazil <span class="fl">🇧🇷</span></span><span class="meta">1977 · €810M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh50">Home <span class="srcbadge">composite</span></label><input id="oh50" inputmode="text" value="+688"></div>
+    <div><label for="od50">Draw</label><input id="od50" inputmode="text" value="+351"></div>
+    <div><label for="oa50">Away</label><input id="oa50" inputmode="text" value="-286"></div>
+    <div class="bcell"><button class="go" data-i="50">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out50"></div>
+</div><div class="datehdr">2026-06-25</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇿</span> Czech Republic</span><span class="meta">1730 · €126M</span></div>
+    <div class="side R"><span class="tname fav">Mexico <span class="fl">🇲🇽</span></span><span class="meta">1880 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh51">Home <span class="srcbadge">composite</span></label><input id="oh51" inputmode="text" value="+263"></div>
+    <div><label for="od51">Draw</label><input id="od51" inputmode="text" value="+225"></div>
+    <div><label for="oa51">Away</label><input id="oa51" inputmode="text" value="+100"></div>
+    <div class="bcell"><button class="go" data-i="51">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out51"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇿🇦</span> South Africa</span><span class="meta">1618 · —</span></div>
+    <div class="side R"><span class="tname fav">South Korea <span class="fl">🇰🇷</span></span><span class="meta">1823 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh52">Home <span class="srcbadge">composite</span></label><input id="oh52" inputmode="text" value="+198"></div>
+    <div><label for="od52">Draw</label><input id="od52" inputmode="text" value="+218"></div>
+    <div><label for="oa52">Away</label><input id="oa52" inputmode="text" value="+133"></div>
+    <div class="bcell"><button class="go" data-i="52">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out52"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
+    <div class="side R"><span class="tname fav">Germany <span class="fl">🇩🇪</span></span><span class="meta">1911 · €926M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh53">Home <span class="srcbadge">composite</span></label><input id="oh53" inputmode="text" value="+413"></div>
+    <div><label for="od53">Draw</label><input id="od53" inputmode="text" value="+285"></div>
+    <div><label for="oa53">Away</label><input id="oa53" inputmode="text" value="-169"></div>
+    <div class="bcell"><button class="go" data-i="53">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out53"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇼</span> Curaçao</span><span class="meta">1578 · €34M</span></div>
+    <div class="side R"><span class="tname fav">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh54">Home <span class="srcbadge">composite</span></label><input id="oh54" inputmode="text" value="+1150"></div>
+    <div><label for="od54">Draw</label><input id="od54" inputmode="text" value="+403"></div>
+    <div><label for="oa54">Away</label><input id="oa54" inputmode="text" value="-400"></div>
+    <div class="bcell"><button class="go" data-i="54">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out54"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
+    <div class="side R"><span class="tname fav">Netherlands <span class="fl">🇳🇱</span></span><span class="meta">1903 · €835M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh55">Home <span class="srcbadge">composite</span></label><input id="oh55" inputmode="text" value="+563"></div>
+    <div><label for="od55">Draw</label><input id="od55" inputmode="text" value="+288"></div>
+    <div><label for="oa55">Away</label><input id="oa55" inputmode="text" value="-200"></div>
+    <div class="bcell"><button class="go" data-i="55">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out55"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇯🇵</span> Japan</span><span class="meta">1908 · €222M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh56">Home <span class="srcbadge">composite</span></label><input id="oh56" inputmode="text" value="+123"></div>
+    <div><label for="od56">Draw</label><input id="od56" inputmode="text" value="+220"></div>
+    <div><label for="oa56">Away</label><input id="oa56" inputmode="text" value="+213"></div>
+    <div class="bcell"><button class="go" data-i="56">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out56"></div>
+</div><div class="datehdr">2026-06-26</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇹🇷</span> Turkey</span><span class="meta">1887 · €385M</span></div>
+    <div class="side R"><span class="tname">United States <span class="fl">🇺🇸</span></span><span class="meta">1794 · €323M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh57">Home <span class="srcbadge">composite</span></label><input id="oh57" inputmode="text" value="+188"></div>
+    <div><label for="od57">Draw</label><input id="od57" inputmode="text" value="+235"></div>
+    <div><label for="oa57">Away</label><input id="oa57" inputmode="text" value="+140"></div>
+    <div class="bcell"><button class="go" data-i="57">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out57"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇵🇾</span> Paraguay</span><span class="meta">1795 · —</span></div>
+    <div class="side R"><span class="tname">Australia <span class="fl">🇦🇺</span></span><span class="meta">1811 · €34M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh58">Home <span class="srcbadge">composite</span></label><input id="oh58" inputmode="text" value="+108"></div>
+    <div><label for="od58">Draw</label><input id="od58" inputmode="text" value="+223"></div>
+    <div><label for="oa58">Away</label><input id="oa58" inputmode="text" value="+245"></div>
+    <div class="bcell"><button class="go" data-i="58">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out58"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇳🇴</span> Norway</span><span class="meta">1901 · €524M</span></div>
+    <div class="side R"><span class="tname fav">France <span class="fl">🇫🇷</span></span><span class="meta">2000 · €1.5B</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh59">Home <span class="srcbadge">composite</span></label><input id="oh59" inputmode="text" value="+413"></div>
+    <div><label for="od59">Draw</label><input id="od59" inputmode="text" value="+260"></div>
+    <div><label for="oa59">Away</label><input id="oa59" inputmode="text" value="-156"></div>
+    <div class="bcell"><button class="go" data-i="59">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out59"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇸🇳</span> Senegal</span><span class="meta">1831 · €391M</span></div>
+    <div class="side R"><span class="tname">Iraq <span class="fl">🇮🇶</span></span><span class="meta">1675 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh60">Home <span class="srcbadge">composite</span></label><input id="oh60" inputmode="text" value="-200"></div>
+    <div><label for="od60">Draw</label><input id="od60" inputmode="text" value="+280"></div>
+    <div><label for="oa60">Away</label><input id="oa60" inputmode="text" value="+575"></div>
+    <div class="bcell"><button class="go" data-i="60">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out60"></div>
+</div><div class="datehdr">2026-06-27</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇺🇾</span> Uruguay</span><span class="meta">1865 · €453M</span></div>
+    <div class="side R"><span class="tname fav">Spain <span class="fl">🇪🇸</span></span><span class="meta">2065 · €950M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh61">Home <span class="srcbadge">composite</span></label><input id="oh61" inputmode="text" value="+450"></div>
+    <div><label for="od61">Draw</label><input id="od61" inputmode="text" value="+280"></div>
+    <div><label for="oa61">Away</label><input id="oa61" inputmode="text" value="-172"></div>
+    <div class="bcell"><button class="go" data-i="61">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out61"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇻</span> Cape Verde</span><span class="meta">1629 · €43M</span></div>
+    <div class="side R"><span class="tname fav">Saudi Arabia <span class="fl">🇸🇦</span></span><span class="meta">1638 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh62">Home <span class="srcbadge">composite</span></label><input id="oh62" inputmode="text" value="+270"></div>
+    <div><label for="od62">Draw</label><input id="od62" inputmode="text" value="+215"></div>
+    <div><label for="oa62">Away</label><input id="oa62" inputmode="text" value="+103"></div>
+    <div class="bcell"><button class="go" data-i="62">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out62"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇳🇿</span> New Zealand</span><span class="meta">1645 · €23M</span></div>
+    <div class="side R"><span class="tname fav">Belgium <span class="fl">🇧🇪</span></span><span class="meta">1903 · €454M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh63">Home <span class="srcbadge">composite</span></label><input id="oh63" inputmode="text" value="+1650"></div>
+    <div><label for="od63">Draw</label><input id="od63" inputmode="text" value="+475"></div>
+    <div><label for="oa63">Away</label><input id="oa63" inputmode="text" value="-556"></div>
+    <div class="bcell"><button class="go" data-i="63">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out63"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇬</span> Egypt</span><span class="meta">1760 · —</span></div>
+    <div class="side R"><span class="tname">Iran <span class="fl">🇮🇷</span></span><span class="meta">1825 · €22M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh64">Home <span class="srcbadge">composite</span></label><input id="oh64" inputmode="text" value="+118"></div>
+    <div><label for="od64">Draw</label><input id="od64" inputmode="text" value="+208"></div>
+    <div><label for="oa64">Away</label><input id="oa64" inputmode="text" value="+235"></div>
+    <div class="bcell"><button class="go" data-i="64">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out64"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇵🇦</span> Panama</span><span class="meta">1754 · —</span></div>
+    <div class="side R"><span class="tname fav">England <span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span></span><span class="meta">1962 · €1.3B</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh65">Home <span class="srcbadge">composite</span></label><input id="oh65" inputmode="text" value="+1750"></div>
+    <div><label for="od65">Draw</label><input id="od65" inputmode="text" value="+563"></div>
+    <div><label for="oa65">Away</label><input id="oa65" inputmode="text" value="-714"></div>
+    <div class="bcell"><button class="go" data-i="65">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out65"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇭🇷</span> Croatia</span><span class="meta">1869 · €308M</span></div>
+    <div class="side R"><span class="tname">Ghana <span class="fl">🇬🇭</span></span><span class="meta">1612 · €181M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh66">Home <span class="srcbadge">composite</span></label><input id="oh66" inputmode="text" value="-118"></div>
+    <div><label for="od66">Draw</label><input id="od66" inputmode="text" value="+230"></div>
+    <div><label for="oa66">Away</label><input id="oa66" inputmode="text" value="+322"></div>
+    <div class="bcell"><button class="go" data-i="66">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out66"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇴</span> Colombia</span><span class="meta">1958 · €216M</span></div>
+    <div class="side R"><span class="tname fav">Portugal <span class="fl">🇵🇹</span></span><span class="meta">1943 · €1.0B</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh67">Home <span class="srcbadge">composite</span></label><input id="oh67" inputmode="text" value="+213"></div>
+    <div><label for="od67">Draw</label><input id="od67" inputmode="text" value="+217"></div>
+    <div><label for="oa67">Away</label><input id="oa67" inputmode="text" value="+107"></div>
+    <div class="bcell"><button class="go" data-i="67">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out67"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇨🇩</span> DR Congo</span><span class="meta">1719 · €115M</span></div>
+    <div class="side R"><span class="tname">Uzbekistan <span class="fl">🇺🇿</span></span><span class="meta">1747 · —</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh68">Home <span class="srcbadge">composite</span></label><input id="oh68" inputmode="text" value="+108"></div>
+    <div><label for="od68">Draw</label><input id="od68" inputmode="text" value="+215"></div>
+    <div><label for="oa68">Away</label><input id="oa68" inputmode="text" value="+253"></div>
+    <div class="bcell"><button class="go" data-i="68">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out68"></div>
+</div><div class="datehdr">2026-06-28</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇯🇴</span> Jordan</span><span class="meta">1712 · —</span></div>
+    <div class="side R"><span class="tname fav">Argentina <span class="fl">🇦🇷</span></span><span class="meta">2050 · €836M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh69">Home <span class="srcbadge">composite</span></label><input id="oh69" inputmode="text" value="+1850"></div>
+    <div><label for="od69">Draw</label><input id="od69" inputmode="text" value="+550"></div>
+    <div><label for="oa69">Away</label><input id="oa69" inputmode="text" value="-714"></div>
+    <div class="bcell"><button class="go" data-i="69">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out69"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇩🇿</span> Algeria</span><span class="meta">1842 · €199M</span></div>
+    <div class="side R"><span class="tname fav">Austria <span class="fl">🇦🇹</span></span><span class="meta">1836 · €271M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh70">Home <span class="srcbadge">composite</span></label><input id="oh70" inputmode="text" value="+198"></div>
+    <div><label for="od70">Draw</label><input id="od70" inputmode="text" value="+223"></div>
+    <div><label for="oa70">Away</label><input id="oa70" inputmode="text" value="+130"></div>
+    <div class="bcell"><button class="go" data-i="70">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out70"></div>
+</div>
+  </div>
+
+  <div class="caveat">
+    Probabilities are the frozen v3 snapshot: MLP probs, home/away split shifted by 0.1452 × log squad-value ratio (37 of 48 teams), then log-pooled with the de-vigged market at weight 0.18/0.82 — in the calculator, the market half comes from the odds you type. All prices American. Eleven squads carry no usable value and pass through unadjusted. EV chips and calculator outputs are paper flags graded forward by wc26_autograde_v3.py; they are not betting advice. Site 12 of the series.
+  </div>
+</div>
+<script>
+const M = [{"h": "Mexico", "a": "South Africa", "vmlp": [0.8168, 0.1354, 0.0478], "pen": null, "res": 0, "score": [2, 0]}, {"h": "South Korea", "a": "Czech Republic", "vmlp": [0.3995, 0.2921, 0.3084], "pen": null, "res": 0, "score": [2, 1]}, {"h": "Canada", "a": "Bosnia and Herzegovina", "vmlp": [0.778, 0.1617, 0.0603], "pen": null, "res": 1, "score": [1, 1]}, {"h": "Qatar", "a": "Switzerland", "vmlp": [0.0467, 0.1184, 0.835], "pen": null, "src": "HR"}, {"h": "Brazil", "a": "Morocco", "vmlp": [0.5346, 0.2641, 0.2013], "pen": null, "src": "HR"}, {"h": "Haiti", "a": "Scotland", "vmlp": [0.2132, 0.2595, 0.5273], "pen": null, "src": "HR"}, {"h": "Australia", "a": "Turkey", "vmlp": [0.2434, 0.2737, 0.4829], "pen": null, "src": "HR"}, {"h": "Germany", "a": "Cura\u00e7ao", "vmlp": [0.8492, 0.1223, 0.0285], "pen": null, "src": "HR"}, {"h": "Netherlands", "a": "Japan", "vmlp": [0.4549, 0.2863, 0.2587], "pen": null, "src": "HR"}, {"h": "Ivory Coast", "a": "Ecuador", "vmlp": [0.2271, 0.2468, 0.5262], "pen": null, "src": "HR"}, {"h": "Sweden", "a": "Tunisia", "vmlp": [0.523, 0.2769, 0.2001], "pen": null, "src": "HR"}, {"h": "Spain", "a": "Cape Verde", "vmlp": [0.8903, 0.092, 0.0178], "pen": null, "src": "HR"}, {"h": "Belgium", "a": "Egypt", "vmlp": [0.6776, 0.2041, 0.1183], "pen": null, "src": "HR"}, {"h": "Saudi Arabia", "a": "Uruguay", "vmlp": [0.1334, 0.1974, 0.6691], "pen": null, "src": "HR"}, {"h": "Iran", "a": "New Zealand", "vmlp": [0.7112, 0.188, 0.1007], "pen": null, "src": "HR"}, {"h": "France", "a": "Senegal", "vmlp": [0.6882, 0.2078, 0.1041], "pen": null, "src": "HR"}, {"h": "Iraq", "a": "Norway", "vmlp": [0.1121, 0.1889, 0.699], "pen": null, "src": "HR"}, {"h": "Argentina", "a": "Algeria", "vmlp": [0.7171, 0.1943, 0.0886], "pen": null, "src": "HR"}, {"h": "Austria", "a": "Jordan", "vmlp": [0.6091, 0.2331, 0.1578], "pen": null, "src": "HR"}, {"h": "Portugal", "a": "DR Congo", "vmlp": [0.7704, 0.169, 0.0606], "pen": null, "src": "HR"}, {"h": "England", "a": "Croatia", "vmlp": [0.6197, 0.2385, 0.1418], "pen": null, "src": "HR"}, {"h": "Ghana", "a": "Panama", "vmlp": [0.2151, 0.2439, 0.541], "pen": null, "src": "HR"}, {"h": "Uzbekistan", "a": "Colombia", "vmlp": [0.136, 0.2025, 0.6615], "pen": null, "src": "HR"}, {"h": "Czech Republic", "a": "South Africa", "vmlp": [0.6079, 0.2333, 0.1589], "pen": null, "src": "HR"}, {"h": "Switzerland", "a": "Bosnia and Herzegovina", "vmlp": [0.7669, 0.1673, 0.0658], "pen": "a", "src": "composite"}, {"h": "Canada", "a": "Qatar", "vmlp": [0.8441, 0.1181, 0.0378], "pen": "h", "src": "composite"}, {"h": "Mexico", "a": "South Korea", "vmlp": [0.6306, 0.2331, 0.1363], "pen": null, "src": "composite"}, {"h": "United States", "a": "Australia", "vmlp": [0.5503, 0.2802, 0.1695], "pen": null, "src": "composite"}, {"h": "Scotland", "a": "Morocco", "vmlp": [0.2171, 0.254, 0.5289], "pen": null, "src": "composite"}, {"h": "Brazil", "a": "Haiti", "vmlp": [0.8204, 0.1405, 0.0391], "pen": null, "src": "composite"}, {"h": "Turkey", "a": "Paraguay", "vmlp": [0.5581, 0.2513, 0.1906], "pen": null, "src": "composite"}, {"h": "Netherlands", "a": "Sweden", "vmlp": [0.6909, 0.2022, 0.1069], "pen": null, "src": "composite"}, {"h": "Germany", "a": "Ivory Coast", "vmlp": [0.6253, 0.2319, 0.1428], "pen": null, "src": "composite"}, {"h": "Ecuador", "a": "Cura\u00e7ao", "vmlp": [0.8502, 0.1184, 0.0314], "pen": null, "src": "composite"}, {"h": "Tunisia", "a": "Japan", "vmlp": [0.1149, 0.206, 0.6792], "pen": null, "src": "composite"}, {"h": "Spain", "a": "Saudi Arabia", "vmlp": [0.8759, 0.095, 0.0291], "pen": null, "src": "composite"}, {"h": "Belgium", "a": "Iran", "vmlp": [0.6293, 0.245, 0.1257], "pen": null, "src": "composite"}, {"h": "Uruguay", "a": "Cape Verde", "vmlp": [0.761, 0.1755, 0.0635], "pen": null, "src": "composite"}, {"h": "New Zealand", "a": "Egypt", "vmlp": [0.2167, 0.2536, 0.5297], "pen": null, "src": "composite"}, {"h": "Argentina", "a": "Austria", "vmlp": [0.7495, 0.1755, 0.075], "pen": null, "src": "composite"}, {"h": "France", "a": "Iraq", "vmlp": [0.822, 0.1289, 0.0491], "pen": null, "src": "composite"}, {"h": "Norway", "a": "Senegal", "vmlp": [0.5509, 0.2557, 0.1934], "pen": null, "src": "composite"}, {"h": "Jordan", "a": "Algeria", "vmlp": [0.1868, 0.2428, 0.5704], "pen": null, "src": "composite"}, {"h": "Portugal", "a": "Uzbekistan", "vmlp": [0.7174, 0.1854, 0.0971], "pen": null, "src": "composite"}, {"h": "England", "a": "Ghana", "vmlp": [0.8473, 0.1198, 0.033], "pen": null, "src": "composite"}, {"h": "Panama", "a": "Croatia", "vmlp": [0.2475, 0.2572, 0.4953], "pen": null, "src": "composite"}, {"h": "Colombia", "a": "DR Congo", "vmlp": [0.7601, 0.1672, 0.0727], "pen": null, "src": "composite"}, {"h": "Switzerland", "a": "Canada", "vmlp": [0.552, 0.2585, 0.1895], "pen": null, "src": "composite"}, {"h": "Bosnia and Herzegovina", "a": "Qatar", "vmlp": [0.6323, 0.2236, 0.1441], "pen": null, "src": "composite"}, {"h": "Morocco", "a": "Haiti", "vmlp": [0.7634, 0.1723, 0.0643], "pen": null, "src": "composite"}, {"h": "Scotland", "a": "Brazil", "vmlp": [0.1342, 0.2134, 0.6524], "pen": null, "src": "composite"}, {"h": "Czech Republic", "a": "Mexico", "vmlp": [0.2038, 0.2392, 0.557], "pen": null, "src": "composite"}, {"h": "South Africa", "a": "South Korea", "vmlp": [0.1392, 0.2052, 0.6556], "pen": null, "src": "composite"}, {"h": "Ecuador", "a": "Germany", "vmlp": [0.3884, 0.289, 0.3226], "pen": null, "src": "composite"}, {"h": "Cura\u00e7ao", "a": "Ivory Coast", "vmlp": [0.0894, 0.1968, 0.7138], "pen": null, "src": "composite"}, {"h": "Tunisia", "a": "Netherlands", "vmlp": [0.0913, 0.2042, 0.7045], "pen": null, "src": "composite"}, {"h": "Japan", "a": "Sweden", "vmlp": [0.6565, 0.2089, 0.1346], "pen": null, "src": "composite"}, {"h": "Turkey", "a": "United States", "vmlp": [0.5665, 0.2498, 0.1838], "pen": null, "src": "composite"}, {"h": "Paraguay", "a": "Australia", "vmlp": [0.3712, 0.2909, 0.3379], "pen": null, "src": "composite"}, {"h": "Norway", "a": "France", "vmlp": [0.2545, 0.2648, 0.4807], "pen": null, "src": "composite"}, {"h": "Senegal", "a": "Iraq", "vmlp": [0.6616, 0.2114, 0.127], "pen": null, "src": "composite"}, {"h": "Uruguay", "a": "Spain", "vmlp": [0.1182, 0.2034, 0.6784], "pen": null, "src": "composite"}, {"h": "Cape Verde", "a": "Saudi Arabia", "vmlp": [0.3904, 0.2906, 0.319], "pen": null, "src": "composite"}, {"h": "New Zealand", "a": "Belgium", "vmlp": [0.0494, 0.1596, 0.7909], "pen": null, "src": "composite"}, {"h": "Egypt", "a": "Iran", "vmlp": [0.2977, 0.2775, 0.4248], "pen": null, "src": "composite"}, {"h": "Panama", "a": "England", "vmlp": [0.1262, 0.1998, 0.674], "pen": null, "src": "composite"}, {"h": "Croatia", "a": "Ghana", "vmlp": [0.7577, 0.168, 0.0744], "pen": null, "src": "composite"}, {"h": "Colombia", "a": "Portugal", "vmlp": [0.3677, 0.2908, 0.3415], "pen": null, "src": "composite"}, {"h": "DR Congo", "a": "Uzbekistan", "vmlp": [0.3607, 0.2877, 0.3516], "pen": null, "src": "composite"}, {"h": "Jordan", "a": "Argentina", "vmlp": [0.0559, 0.1316, 0.8125], "pen": null, "src": "composite"}, {"h": "Algeria", "a": "Austria", "vmlp": [0.4524, 0.2798, 0.2678], "pen": null, "src": "composite"}];
+const W = 0.18, KMULT = 0.75;
+const $ = id => document.getElementById(id);
+function a2d(s){ s=String(s).trim().replace('−','-'); const v=parseFloat(s);
+  if(!isFinite(v)||Math.abs(v)<100) return null;
+  return v>0 ? 1+v/100 : 1+100/(-v); }
+function d2a(d){ return d>=2 ? '+'+Math.round((d-1)*100) : '-'+Math.round(100/(d-1)); }
+function pool(p,q){ const L=[0,1,2].map(i=>W*Math.log(Math.max(p[i],1e-9))+(1-W)*Math.log(Math.max(q[i],1e-9)));
+  const mx=Math.max(...L); const e=L.map(x=>Math.exp(x-mx)); const s=e[0]+e[1]+e[2]; return e.map(x=>x/s); }
+function calc(i){
+  const m=M[i];
+  const dec=[a2d($('oh'+i).value), a2d($('od'+i).value), a2d($('oa'+i).value)];
+  const bank=parseFloat($('bank').value);
+  const out=$('out'+i); out.style.display='block';
+  if(dec.some(x=>x===null||x<=1) || !isFinite(bank) || bank<=0){
+    out.className='cverd nobet';
+    out.innerHTML='<b class="head">Check the inputs</b>Odds need a sign and three digits (-150, +220); bankroll must be positive — set it in the box at the top.';
+    return;
+  }
+  const q=dec.map(x=>1/x); const s=q[0]+q[1]+q[2]; const vig=s-1;
+  const mkt=q.map(x=>x/s);
+  let p=pool(m.vmlp,mkt);
+  if(m.pen){ const t=p.slice();
+    if(m.pen==='h'||m.pen==='both') t[0]*=0.825;
+    if(m.pen==='a'||m.pen==='both') t[2]*=0.825;
+    const ts=t[0]+t[1]+t[2]; p=t.map(x=>x/ts); }
+  const ev=[0,1,2].map(k=>p[k]*dec[k]-1);
+  let bi=0; for(let k=1;k<3;k++) if(ev[k]>ev[bi]) bi=k;
+  let fi=0; for(let k=1;k<3;k++) if(dec[k]<dec[fi]) fi=k;
+  const bar=(bi===fi)?0.03:0.05;
+  const names=[m.h,'Draw',m.a];
+  const vigtxt = vig<0 ? 'prices sum under 100% — arb or typo, double-check' :
+                 'vig '+(vig*100).toFixed(1)+'%';
+  if(ev[bi]<=bar){
+    out.className='cverd nobet';
+    out.innerHTML='<b class="head">No bet</b>'
+      +'Best side is <span class="big">'+names[bi]+'</span> at EV '+(ev[bi]>=0?'+':'')+(ev[bi]*100).toFixed(1)
+      +'% — under the '+(bar*100).toFixed(0)+'% bar'+(bi===fi?' (favorite)':'')+'. v3 says '+Math.round(p[0]*100)+' / '+Math.round(p[1]*100)+' / '+Math.round(p[2]*100)
+      +', your prices imply '+Math.round(mkt[0]*100)+' / '+Math.round(mkt[1]*100)+' / '+Math.round(mkt[2]*100)+'.'
+      +((m.res!==undefined&&m.res!==null)?'<br><b>Result '+m.score[0]+'–'+m.score[1]+' — no money was at risk.</b>':(m.res===null?'<br><b>Game is live — exhibition only.</b>':''))
+      +'<div class="vwarn">'+vigtxt+' · passing is the system working — most games end here.</div>';
+    return;
+  }
+  const f=Math.max(0,(p[bi]*dec[bi]-1)/(dec[bi]-1))*KMULT;
+  const stake=bank*f;
+  let post='';
+  if(m.res!==undefined&&m.res!==null){
+    const won=(m.res===bi); const pl=won?stake*(dec[bi]-1):-stake;
+    post='<br><b>Result '+m.score[0]+'–'+m.score[1]+': this bet WOULD HAVE '+(won?'WON +$'+pl.toFixed(2):'LOST $'+Math.abs(pl).toFixed(2))+'</b>';
+  } else if(m.res===null){ post='<br><b>Game is live — exhibition only, no bet exists here.</b>'; }
+  out.className='cverd bet';
+  out.innerHTML='<b class="head">Bet '+names[bi]+' @ '+d2a(dec[bi])+'</b>'
+    +'Stake <span class="big">$'+stake.toFixed(2)+'</span> · '+(f*100).toFixed(1)+'% of bankroll · 0.75 Kelly<br>'
+    +'v3 '+(p[bi]*100).toFixed(1)+'% vs implied '+(mkt[bi]*100).toFixed(1)+'% · EV +'+(ev[bi]*100).toFixed(1)+'%'
+    +post+'<div class="vwarn">'+(m.src==='HR'?'prefilled Hard Rock · ':'')+vigtxt+(m.pen?' · travel rule applied (×0.825 on '+(m.pen==='both'?'both teams':m.pen==='h'?m.h:m.a)+')':'')+' · model = frozen value-MLP pooled 0.18 with YOUR prices · prereg P1 still expects the market to win · paper guidance, not advice.</div>';
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('button.go').forEach(b=>b.onclick=()=>calc(+b.dataset.i));
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    $('tabForecasts').style.display = t.id==='tF' ? 'block':'none';
+    $('tabCalc').style.display = t.id==='tC' ? 'block':'none'; });});
+</script>
+</body>
+</html>
