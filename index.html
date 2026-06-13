@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="refresh" content="60">
 <title>The v3 Forecaster — Every Match, One Recipe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -78,17 +77,60 @@ button.go:focus-visible{outline:2px solid var(--amber)}
   <div class="eyebrow">World Cup 2026 · model v3 · frozen 2026-06-13T15:12Z · 68 matches</div>
   <div class="livebar" style="font:600 12px/1.4 'IBM Plex Mono',monospace;color:#9fb89f;margin:2px 0 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
     <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#39d353;box-shadow:0 0 6px #39d353;animation:pulse 2s infinite"></span>
-    <span>data as of 2026-06-13 19:42Z</span><span style="opacity:.5">·</span>
+    <span>data as of 2026-06-13 20:20Z</span><span style="opacity:.5">·</span>
     <span id="ago">just now</span><span style="opacity:.5">·</span>
-    <span style="opacity:.7">page auto-refreshes every 60s</span>
+    <span style="opacity:.7">live · updates in place every 60s</span>
   </div>
   <style>@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}</style>
   <script>
-    (function(){const built=Date.parse("2026-06-13 19:42Z".replace(' ','T'));
-    function tick(){const s=Math.max(0,Math.round((Date.now()-built)/1000));
-    let t=s<60?s+"s ago":s<3600?Math.round(s/60)+"m ago":Math.round(s/3600)+"h ago";
-    const e=document.getElementById('ago');if(e)e.textContent="updated "+t;}
-    tick();setInterval(tick,1000);})();
+    (function(){
+      // --- freshness clock (resets when new data is swapped in) ---
+      var built=Date.parse("2026-06-13 20:20Z".replace(' ','T'));
+      function tick(){var s=Math.max(0,Math.round((Date.now()-built)/1000));
+        var t=s<60?s+"s ago":s<3600?Math.round(s/60)+"m ago":Math.round(s/3600)+"h ago";
+        var e=document.getElementById('ago');if(e)e.textContent="updated "+t;}
+      tick();setInterval(tick,1000);
+
+      // --- scroll preserve across any reload (safety net) ---
+      try{
+        var KEY='v3_scroll';
+        var saved=sessionStorage.getItem(KEY);
+        if(saved!==null){window.scrollTo(0,parseInt(saved,10)||0);sessionStorage.removeItem(KEY);}
+        window.addEventListener('beforeunload',function(){
+          try{sessionStorage.setItem(KEY,String(window.scrollY||window.pageYOffset||0));}catch(e){}
+        });
+      }catch(e){}
+
+      // --- in-place background update: fetch own URL, swap only #tabForecasts + timestamp ---
+      function liveUpdate(){
+        fetch(location.pathname+'?t='+Date.now(),{cache:'no-store'})
+          .then(function(r){return r.ok?r.text():null;})
+          .then(function(html){
+            if(!html)return;
+            var doc=new DOMParser().parseFromString(html,'text/html');
+            var fresh=doc.getElementById('tabForecasts');
+            var cur=document.getElementById('tabForecasts');
+            if(!fresh||!cur)return;
+            // only touch the DOM if the data actually changed (no flash on no-op)
+            if(fresh.innerHTML!==cur.innerHTML){
+              var y=window.scrollY||window.pageYOffset||0;   // hold scroll across swap
+              cur.innerHTML=fresh.innerHTML;
+              window.scrollTo(0,y);
+            }
+            // refresh the "data as of" stamp + reset the ticking clock
+            var fb=doc.querySelector('.livebar span:nth-child(2)');
+            var cb=document.querySelector('.livebar span:nth-child(2)');
+            if(fb&&cb&&fb.textContent!==cb.textContent){
+              cb.textContent=fb.textContent;
+              var m=fb.textContent.replace('data as of','').trim();
+              var p=Date.parse(m.replace(' ','T').replace('Z','Z'));
+              if(!isNaN(p))built=p;
+            }
+          })
+          .catch(function(){});   // network blip: keep showing current data, try again next cycle
+      }
+      setInterval(liveUpdate,60000);
+    })();
   </script>
   <h1>The v3 Forecaster</h1>
   <div class="sub">Every upcoming match, priced by the full v3 chain. Gold name = model favorite. Amber border = one of the quotes where v3 still disagrees with the market past the EV bar (5%, 3% on favorites) after being told to be humble.</div>
