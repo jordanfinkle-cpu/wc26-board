@@ -74,10 +74,10 @@ button.go:focus-visible{outline:2px solid var(--amber)}
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">World Cup 2026 · model v3 · frozen 2026-06-13T15:12Z · 63 matches</div>
+  <div class="eyebrow">World Cup 2026 · model v3 · frozen 2026-06-13T15:12Z · 60 matches</div>
   <div class="livebar" style="font:600 12px/1.4 'IBM Plex Mono',monospace;color:#9fb89f;margin:2px 0 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
     <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#39d353;box-shadow:0 0 6px #39d353;animation:pulse 2s infinite"></span>
-    <span>data as of 2026-06-14 20:42Z</span><span style="opacity:.5">·</span>
+    <span>data as of 2026-06-15 16:27Z</span><span style="opacity:.5">·</span>
     <span id="ago">just now</span><span style="opacity:.5">·</span>
     <span style="opacity:.7">live · updates in place every 60s</span>
   </div>
@@ -85,7 +85,7 @@ button.go:focus-visible{outline:2px solid var(--amber)}
   <script>
     (function(){
       // --- freshness clock (resets when new data is swapped in) ---
-      var built=Date.parse("2026-06-14 20:42Z".replace(' ','T'));
+      var built=Date.parse("2026-06-15 16:27Z".replace(' ','T'));
       function tick(){var s=Math.max(0,Math.round((Date.now()-built)/1000));
         var t=s<60?s+"s ago":s<3600?Math.round(s/60)+"m ago":Math.round(s/3600)+"h ago";
         var e=document.getElementById('ago');if(e)e.textContent="updated "+t;}
@@ -168,31 +168,7 @@ button.go:focus-visible{outline:2px solid var(--amber)}
   <div class="pcts"><span>58%</span><span>draw 24%</span><span>18%</span></div>
   <div class="mktline">blind call: Canada · market was 53 / 26 / 22 · odds -128 / +264 / +333 · lvr +0.64</div>
 </div>
-  <div class="datehdr">2026-06-14</div><div class="match">
-  <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
-    <div class="side R"><span class="tname">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
-  </div>
-  <div class="probbar"><span class="pH" style="width:47.9%"></span><span class="pD" style="width:26.7%"></span><span class="pA" style="width:25.4%"></span></div>
-  <div class="pcts"><span>48%</span><span>draw 27%</span><span>25%</span></div>
-  <div class="mktline">market 48 / 26 / 25 · Hard Rock -105 / +260 / +275</div>
-</div><div class="match">
-  <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇨🇮</span> Ivory Coast</span><span class="meta">1790 · €420M</span></div>
-    <div class="side R"><span class="tname fav">Ecuador <span class="fl">🇪🇨</span></span><span class="meta">1927 · €298M</span></div>
-  </div>
-  <div class="probbar"><span class="pH" style="width:28.1%"></span><span class="pD" style="width:31.3%"></span><span class="pA" style="width:40.6%"></span></div>
-  <div class="pcts"><span>28%</span><span>draw 31%</span><span>41%</span></div>
-  <div class="mktline">market 29 / 33 / 38 · Hard Rock +225 / +190 / +150</div>
-</div><div class="datehdr">2026-06-15</div><div class="match">
-  <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇸🇪</span> Sweden</span><span class="meta">1733 · €440M</span></div>
-    <div class="side R"><span class="tname">Tunisia <span class="fl">🇹🇳</span></span><span class="meta">1704 · €45M</span></div>
-  </div>
-  <div class="probbar"><span class="pH" style="width:50.2%"></span><span class="pD" style="width:27.9%"></span><span class="pA" style="width:21.9%"></span></div>
-  <div class="pcts"><span>50%</span><span>draw 28%</span><span>22%</span></div>
-  <div class="mktline">market 50 / 28 / 22 · Hard Rock -110 / +240 / +325</div>
-</div><div class="match">
+  <div class="datehdr">2026-06-15</div><div class="match">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇪🇸</span> Spain</span><span class="meta">2065 · €950M</span></div>
     <div class="side R"><span class="tname">Cape Verde <span class="fl">🇨🇻</span></span><span class="meta">1629 · €43M</span></div>
@@ -355,7 +331,7 @@ button.go:focus-visible{outline:2px solid var(--amber)}
 </div><div class="match">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
-    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1775 · €440M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:58.9%"></span><span class="pD" style="width:23.7%"></span><span class="pA" style="width:17.4%"></span></div>
   <div class="pcts"><span>59%</span><span>draw 24%</span><span>17%</span></div>
@@ -363,14 +339,14 @@ button.go:focus-visible{outline:2px solid var(--amber)}
 </div><div class="match">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇩🇪</span> Germany</span><span class="meta">1918 · €926M</span></div>
-    <div class="side R"><span class="tname">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
+    <div class="side R"><span class="tname">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1820 · €420M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:60.2%"></span><span class="pD" style="width:23.0%"></span><span class="pA" style="width:16.7%"></span></div>
   <div class="pcts"><span>60%</span><span>draw 23%</span><span>17%</span></div>
   <div class="mktline">market 60 / 23 / 17 · composite -185 / +300 / +431</div>
 </div><div class="datehdr">2026-06-21</div><div class="match">
   <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1897 · €298M</span></div>
     <div class="side R"><span class="tname">Curaçao <span class="fl">🇨🇼</span></span><span class="meta">1570 · €34M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:77.3%"></span><span class="pD" style="width:16.0%"></span><span class="pA" style="width:6.7%"></span></div>
@@ -378,7 +354,7 @@ button.go:focus-visible{outline:2px solid var(--amber)}
   <div class="mktline">market 75 / 17 / 8 · composite -435 / +444 / +1083</div>
 </div><div class="match">
   <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1662 · €45M</span></div>
     <div class="side R"><span class="tname fav">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:19.4%"></span><span class="pD" style="width:27.1%"></span><span class="pA" style="width:53.5%"></span></div>
@@ -530,7 +506,7 @@ button.go:focus-visible{outline:2px solid var(--amber)}
   <div class="mktline">market 31 / 29 / 40 · composite +198 / +218 / +133<span class="evchip">EV +4% on away @ +133 · fav 3% bar</span></div>
 </div><div class="match flagged">
   <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
+    <div class="side L"><span class="tname"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1897 · €298M</span></div>
     <div class="side R"><span class="tname fav">Germany <span class="fl">🇩🇪</span></span><span class="meta">1918 · €926M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:21.2%"></span><span class="pD" style="width:25.4%"></span><span class="pA" style="width:53.5%"></span></div>
@@ -539,14 +515,14 @@ button.go:focus-visible{outline:2px solid var(--amber)}
 </div><div class="match">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇨🇼</span> Curaçao</span><span class="meta">1570 · €34M</span></div>
-    <div class="side R"><span class="tname fav">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
+    <div class="side R"><span class="tname fav">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1820 · €420M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:7.7%"></span><span class="pD" style="width:18.6%"></span><span class="pA" style="width:73.7%"></span></div>
   <div class="pcts"><span>8%</span><span>draw 19%</span><span>74%</span></div>
   <div class="mktline">market 7 / 18 / 74 · composite +1150 / +403 / -400</div>
 </div><div class="match">
   <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1662 · €45M</span></div>
     <div class="side R"><span class="tname fav">Netherlands <span class="fl">🇳🇱</span></span><span class="meta">1903 · €835M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:13.0%"></span><span class="pD" style="width:23.4%"></span><span class="pA" style="width:63.6%"></span></div>
@@ -555,7 +531,7 @@ button.go:focus-visible{outline:2px solid var(--amber)}
 </div><div class="match">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇯🇵</span> Japan</span><span class="meta">1908 · €222M</span></div>
-    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1775 · €440M</span></div>
   </div>
   <div class="probbar"><span class="pH" style="width:46.0%"></span><span class="pD" style="width:27.8%"></span><span class="pA" style="width:26.2%"></span></div>
   <div class="pcts"><span>46%</span><span>draw 28%</span><span>26%</span></div>
@@ -721,762 +697,726 @@ button.go:focus-visible{outline:2px solid var(--amber)}
   </div>
   <div class="cverd" id="out2"></div>
 </div>
-  <div class="datehdr">2026-06-14</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
-    <div class="side R"><span class="tname">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh3">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh3" inputmode="text" value="-105"></div>
-    <div><label for="od3">Draw</label><input id="od3" inputmode="text" value="+260"></div>
-    <div><label for="oa3">Away</label><input id="oa3" inputmode="text" value="+275"></div>
-    <div class="bcell"><button class="go" data-i="3">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out3"></div>
-</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇨🇮</span> Ivory Coast</span><span class="meta">1790 · €420M</span></div>
-    <div class="side R"><span class="tname fav">Ecuador <span class="fl">🇪🇨</span></span><span class="meta">1927 · €298M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh4">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh4" inputmode="text" value="+225"></div>
-    <div><label for="od4">Draw</label><input id="od4" inputmode="text" value="+190"></div>
-    <div><label for="oa4">Away</label><input id="oa4" inputmode="text" value="+150"></div>
-    <div class="bcell"><button class="go" data-i="4">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out4"></div>
-</div><div class="datehdr">2026-06-15</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇸🇪</span> Sweden</span><span class="meta">1733 · €440M</span></div>
-    <div class="side R"><span class="tname">Tunisia <span class="fl">🇹🇳</span></span><span class="meta">1704 · €45M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh5">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh5" inputmode="text" value="-110"></div>
-    <div><label for="od5">Draw</label><input id="od5" inputmode="text" value="+240"></div>
-    <div><label for="oa5">Away</label><input id="oa5" inputmode="text" value="+325"></div>
-    <div class="bcell"><button class="go" data-i="5">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out5"></div>
-</div><div class="match calc">
+  <div class="datehdr">2026-06-15</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇪🇸</span> Spain</span><span class="meta">2065 · €950M</span></div>
     <div class="side R"><span class="tname">Cape Verde <span class="fl">🇨🇻</span></span><span class="meta">1629 · €43M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh6">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh6" inputmode="text" value="-1100"></div>
-    <div><label for="od6">Draw</label><input id="od6" inputmode="text" value="+1000"></div>
-    <div><label for="oa6">Away</label><input id="oa6" inputmode="text" value="+2500"></div>
-    <div class="bcell"><button class="go" data-i="6">Calculate</button></div>
+    <div><label for="oh3">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh3" inputmode="text" value="-1100"></div>
+    <div><label for="od3">Draw</label><input id="od3" inputmode="text" value="+1000"></div>
+    <div><label for="oa3">Away</label><input id="oa3" inputmode="text" value="+2500"></div>
+    <div class="bcell"><button class="go" data-i="3">Calculate</button></div>
   </div>
-  <div class="cverd" id="out6"></div>
+  <div class="cverd" id="out3"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇧🇪</span> Belgium</span><span class="meta">1903 · €454M</span></div>
     <div class="side R"><span class="tname">Egypt <span class="fl">🇪🇬</span></span><span class="meta">1760 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh7">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh7" inputmode="text" value="-165"></div>
-    <div><label for="od7">Draw</label><input id="od7" inputmode="text" value="+300"></div>
-    <div><label for="oa7">Away</label><input id="oa7" inputmode="text" value="+475"></div>
-    <div class="bcell"><button class="go" data-i="7">Calculate</button></div>
+    <div><label for="oh4">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh4" inputmode="text" value="-165"></div>
+    <div><label for="od4">Draw</label><input id="od4" inputmode="text" value="+300"></div>
+    <div><label for="oa4">Away</label><input id="oa4" inputmode="text" value="+475"></div>
+    <div class="bcell"><button class="go" data-i="4">Calculate</button></div>
   </div>
-  <div class="cverd" id="out7"></div>
+  <div class="cverd" id="out4"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇸🇦</span> Saudi Arabia</span><span class="meta">1638 · —</span></div>
     <div class="side R"><span class="tname fav">Uruguay <span class="fl">🇺🇾</span></span><span class="meta">1865 · €453M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh8">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh8" inputmode="text" value="+750"></div>
-    <div><label for="od8">Draw</label><input id="od8" inputmode="text" value="+350"></div>
-    <div><label for="oa8">Away</label><input id="oa8" inputmode="text" value="-250"></div>
-    <div class="bcell"><button class="go" data-i="8">Calculate</button></div>
+    <div><label for="oh5">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh5" inputmode="text" value="+750"></div>
+    <div><label for="od5">Draw</label><input id="od5" inputmode="text" value="+350"></div>
+    <div><label for="oa5">Away</label><input id="oa5" inputmode="text" value="-250"></div>
+    <div class="bcell"><button class="go" data-i="5">Calculate</button></div>
   </div>
-  <div class="cverd" id="out8"></div>
+  <div class="cverd" id="out5"></div>
 </div><div class="datehdr">2026-06-16</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇮🇷</span> Iran</span><span class="meta">1825 · €22M</span></div>
     <div class="side R"><span class="tname">New Zealand <span class="fl">🇳🇿</span></span><span class="meta">1645 · €23M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh9">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh9" inputmode="text" value="-125"></div>
-    <div><label for="od9">Draw</label><input id="od9" inputmode="text" value="+250"></div>
-    <div><label for="oa9">Away</label><input id="oa9" inputmode="text" value="+375"></div>
-    <div class="bcell"><button class="go" data-i="9">Calculate</button></div>
+    <div><label for="oh6">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh6" inputmode="text" value="-125"></div>
+    <div><label for="od6">Draw</label><input id="od6" inputmode="text" value="+250"></div>
+    <div><label for="oa6">Away</label><input id="oa6" inputmode="text" value="+375"></div>
+    <div class="bcell"><button class="go" data-i="6">Calculate</button></div>
   </div>
-  <div class="cverd" id="out9"></div>
+  <div class="cverd" id="out6"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇫🇷</span> France</span><span class="meta">2000 · €1.5B</span></div>
     <div class="side R"><span class="tname">Senegal <span class="fl">🇸🇳</span></span><span class="meta">1831 · €391M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh10">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh10" inputmode="text" value="-220"></div>
-    <div><label for="od10">Draw</label><input id="od10" inputmode="text" value="+325"></div>
-    <div><label for="oa10">Away</label><input id="oa10" inputmode="text" value="+650"></div>
-    <div class="bcell"><button class="go" data-i="10">Calculate</button></div>
+    <div><label for="oh7">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh7" inputmode="text" value="-220"></div>
+    <div><label for="od7">Draw</label><input id="od7" inputmode="text" value="+325"></div>
+    <div><label for="oa7">Away</label><input id="oa7" inputmode="text" value="+650"></div>
+    <div class="bcell"><button class="go" data-i="7">Calculate</button></div>
   </div>
-  <div class="cverd" id="out10"></div>
+  <div class="cverd" id="out7"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇮🇶</span> Iraq</span><span class="meta">1675 · —</span></div>
     <div class="side R"><span class="tname fav">Norway <span class="fl">🇳🇴</span></span><span class="meta">1901 · €524M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh11">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh11" inputmode="text" value="+1500"></div>
-    <div><label for="od11">Draw</label><input id="od11" inputmode="text" value="+600"></div>
-    <div><label for="oa11">Away</label><input id="oa11" inputmode="text" value="-550"></div>
-    <div class="bcell"><button class="go" data-i="11">Calculate</button></div>
+    <div><label for="oh8">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh8" inputmode="text" value="+1500"></div>
+    <div><label for="od8">Draw</label><input id="od8" inputmode="text" value="+600"></div>
+    <div><label for="oa8">Away</label><input id="oa8" inputmode="text" value="-550"></div>
+    <div class="bcell"><button class="go" data-i="8">Calculate</button></div>
   </div>
-  <div class="cverd" id="out11"></div>
+  <div class="cverd" id="out8"></div>
 </div><div class="datehdr">2026-06-17</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇦🇷</span> Argentina</span><span class="meta">2050 · €836M</span></div>
     <div class="side R"><span class="tname">Algeria <span class="fl">🇩🇿</span></span><span class="meta">1842 · €199M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh12">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh12" inputmode="text" value="-275"></div>
-    <div><label for="od12">Draw</label><input id="od12" inputmode="text" value="+375"></div>
-    <div><label for="oa12">Away</label><input id="oa12" inputmode="text" value="+850"></div>
-    <div class="bcell"><button class="go" data-i="12">Calculate</button></div>
+    <div><label for="oh9">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh9" inputmode="text" value="-275"></div>
+    <div><label for="od9">Draw</label><input id="od9" inputmode="text" value="+375"></div>
+    <div><label for="oa9">Away</label><input id="oa9" inputmode="text" value="+850"></div>
+    <div class="bcell"><button class="go" data-i="9">Calculate</button></div>
   </div>
-  <div class="cverd" id="out12"></div>
+  <div class="cverd" id="out9"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇦🇹</span> Austria</span><span class="meta">1836 · €271M</span></div>
     <div class="side R"><span class="tname">Jordan <span class="fl">🇯🇴</span></span><span class="meta">1712 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh13">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh13" inputmode="text" value="-325"></div>
-    <div><label for="od13">Draw</label><input id="od13" inputmode="text" value="+450"></div>
-    <div><label for="oa13">Away</label><input id="oa13" inputmode="text" value="+900"></div>
-    <div class="bcell"><button class="go" data-i="13">Calculate</button></div>
+    <div><label for="oh10">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh10" inputmode="text" value="-325"></div>
+    <div><label for="od10">Draw</label><input id="od10" inputmode="text" value="+450"></div>
+    <div><label for="oa10">Away</label><input id="oa10" inputmode="text" value="+900"></div>
+    <div class="bcell"><button class="go" data-i="10">Calculate</button></div>
   </div>
-  <div class="cverd" id="out13"></div>
+  <div class="cverd" id="out10"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇵🇹</span> Portugal</span><span class="meta">1943 · €1.0B</span></div>
     <div class="side R"><span class="tname">DR Congo <span class="fl">🇨🇩</span></span><span class="meta">1719 · €115M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh14">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh14" inputmode="text" value="-350"></div>
-    <div><label for="od14">Draw</label><input id="od14" inputmode="text" value="+450"></div>
-    <div><label for="oa14">Away</label><input id="oa14" inputmode="text" value="+1000"></div>
-    <div class="bcell"><button class="go" data-i="14">Calculate</button></div>
+    <div><label for="oh11">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh11" inputmode="text" value="-350"></div>
+    <div><label for="od11">Draw</label><input id="od11" inputmode="text" value="+450"></div>
+    <div><label for="oa11">Away</label><input id="oa11" inputmode="text" value="+1000"></div>
+    <div class="bcell"><button class="go" data-i="11">Calculate</button></div>
   </div>
-  <div class="cverd" id="out14"></div>
+  <div class="cverd" id="out11"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</span><span class="meta">1962 · €1.3B</span></div>
     <div class="side R"><span class="tname">Croatia <span class="fl">🇭🇷</span></span><span class="meta">1869 · €308M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh15">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh15" inputmode="text" value="-135"></div>
-    <div><label for="od15">Draw</label><input id="od15" inputmode="text" value="+275"></div>
-    <div><label for="oa15">Away</label><input id="oa15" inputmode="text" value="+400"></div>
-    <div class="bcell"><button class="go" data-i="15">Calculate</button></div>
+    <div><label for="oh12">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh12" inputmode="text" value="-135"></div>
+    <div><label for="od12">Draw</label><input id="od12" inputmode="text" value="+275"></div>
+    <div><label for="oa12">Away</label><input id="oa12" inputmode="text" value="+400"></div>
+    <div class="bcell"><button class="go" data-i="12">Calculate</button></div>
   </div>
-  <div class="cverd" id="out15"></div>
+  <div class="cverd" id="out12"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇬🇭</span> Ghana</span><span class="meta">1612 · €181M</span></div>
     <div class="side R"><span class="tname">Panama <span class="fl">🇵🇦</span></span><span class="meta">1754 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh16">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh16" inputmode="text" value="+115"></div>
-    <div><label for="od16">Draw</label><input id="od16" inputmode="text" value="+240"></div>
-    <div><label for="oa16">Away</label><input id="oa16" inputmode="text" value="+250"></div>
-    <div class="bcell"><button class="go" data-i="16">Calculate</button></div>
+    <div><label for="oh13">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh13" inputmode="text" value="+115"></div>
+    <div><label for="od13">Draw</label><input id="od13" inputmode="text" value="+240"></div>
+    <div><label for="oa13">Away</label><input id="oa13" inputmode="text" value="+250"></div>
+    <div class="bcell"><button class="go" data-i="13">Calculate</button></div>
   </div>
-  <div class="cverd" id="out16"></div>
+  <div class="cverd" id="out13"></div>
 </div><div class="datehdr">2026-06-18</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇺🇿</span> Uzbekistan</span><span class="meta">1747 · —</span></div>
     <div class="side R"><span class="tname fav">Colombia <span class="fl">🇨🇴</span></span><span class="meta">1958 · €216M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh17">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh17" inputmode="text" value="+750"></div>
-    <div><label for="od17">Draw</label><input id="od17" inputmode="text" value="+350"></div>
-    <div><label for="oa17">Away</label><input id="oa17" inputmode="text" value="-250"></div>
-    <div class="bcell"><button class="go" data-i="17">Calculate</button></div>
+    <div><label for="oh14">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh14" inputmode="text" value="+750"></div>
+    <div><label for="od14">Draw</label><input id="od14" inputmode="text" value="+350"></div>
+    <div><label for="oa14">Away</label><input id="oa14" inputmode="text" value="-250"></div>
+    <div class="bcell"><button class="go" data-i="14">Calculate</button></div>
   </div>
-  <div class="cverd" id="out17"></div>
+  <div class="cverd" id="out14"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇨🇿</span> Czech Republic</span><span class="meta">1730 · €126M</span></div>
     <div class="side R"><span class="tname">South Africa <span class="fl">🇿🇦</span></span><span class="meta">1618 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh18">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh18" inputmode="text" value="-140"></div>
-    <div><label for="od18">Draw</label><input id="od18" inputmode="text" value="+275"></div>
-    <div><label for="oa18">Away</label><input id="oa18" inputmode="text" value="+375"></div>
-    <div class="bcell"><button class="go" data-i="18">Calculate</button></div>
+    <div><label for="oh15">Home <span class="srcbadge hr">Hard Rock</span></label><input id="oh15" inputmode="text" value="-140"></div>
+    <div><label for="od15">Draw</label><input id="od15" inputmode="text" value="+275"></div>
+    <div><label for="oa15">Away</label><input id="oa15" inputmode="text" value="+375"></div>
+    <div class="bcell"><button class="go" data-i="15">Calculate</button></div>
   </div>
-  <div class="cverd" id="out18"></div>
+  <div class="cverd" id="out15"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇨🇭</span> Switzerland</span><span class="meta">1865 · €310M</span></div>
     <div class="side R"><span class="tname">Bosnia and Herzegovina <span class="fl">🇧🇦</span></span><span class="meta">1646 · €77M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh19">Home <span class="srcbadge">composite</span></label><input id="oh19" inputmode="text" value="-192"></div>
-    <div><label for="od19">Draw</label><input id="od19" inputmode="text" value="+291"></div>
-    <div><label for="oa19">Away</label><input id="oa19" inputmode="text" value="+483"></div>
-    <div class="bcell"><button class="go" data-i="19">Calculate</button></div>
+    <div><label for="oh16">Home <span class="srcbadge">composite</span></label><input id="oh16" inputmode="text" value="-192"></div>
+    <div><label for="od16">Draw</label><input id="od16" inputmode="text" value="+291"></div>
+    <div><label for="oa16">Away</label><input id="oa16" inputmode="text" value="+483"></div>
+    <div class="bcell"><button class="go" data-i="16">Calculate</button></div>
   </div>
-  <div class="cverd" id="out19"></div>
+  <div class="cverd" id="out16"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇨🇦</span> Canada</span><span class="meta">1812 · €146M</span></div>
     <div class="side R"><span class="tname">Qatar <span class="fl">🇶🇦</span></span><span class="meta">1530 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh20">Home <span class="srcbadge">composite</span></label><input id="oh20" inputmode="text" value="-208"></div>
-    <div><label for="od20">Draw</label><input id="od20" inputmode="text" value="+285"></div>
-    <div><label for="oa20">Away</label><input id="oa20" inputmode="text" value="+563"></div>
-    <div class="bcell"><button class="go" data-i="20">Calculate</button></div>
+    <div><label for="oh17">Home <span class="srcbadge">composite</span></label><input id="oh17" inputmode="text" value="-208"></div>
+    <div><label for="od17">Draw</label><input id="od17" inputmode="text" value="+285"></div>
+    <div><label for="oa17">Away</label><input id="oa17" inputmode="text" value="+563"></div>
+    <div class="bcell"><button class="go" data-i="17">Calculate</button></div>
   </div>
-  <div class="cverd" id="out20"></div>
+  <div class="cverd" id="out17"></div>
 </div><div class="datehdr">2026-06-19</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇲🇽</span> Mexico</span><span class="meta">1880 · —</span></div>
     <div class="side R"><span class="tname">South Korea <span class="fl">🇰🇷</span></span><span class="meta">1823 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh21">Home <span class="srcbadge">composite</span></label><input id="oh21" inputmode="text" value="-128"></div>
-    <div><label for="od21">Draw</label><input id="od21" inputmode="text" value="+231"></div>
-    <div><label for="oa21">Away</label><input id="oa21" inputmode="text" value="+333"></div>
-    <div class="bcell"><button class="go" data-i="21">Calculate</button></div>
+    <div><label for="oh18">Home <span class="srcbadge">composite</span></label><input id="oh18" inputmode="text" value="-128"></div>
+    <div><label for="od18">Draw</label><input id="od18" inputmode="text" value="+231"></div>
+    <div><label for="oa18">Away</label><input id="oa18" inputmode="text" value="+333"></div>
+    <div class="bcell"><button class="go" data-i="18">Calculate</button></div>
   </div>
-  <div class="cverd" id="out21"></div>
+  <div class="cverd" id="out18"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇺🇸</span> United States</span><span class="meta">1794 · €323M</span></div>
     <div class="side R"><span class="tname">Australia <span class="fl">🇦🇺</span></span><span class="meta">1855 · €34M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh22">Home <span class="srcbadge">composite</span></label><input id="oh22" inputmode="text" value="-143"></div>
-    <div><label for="od22">Draw</label><input id="od22" inputmode="text" value="+250"></div>
-    <div><label for="oa22">Away</label><input id="oa22" inputmode="text" value="+363"></div>
-    <div class="bcell"><button class="go" data-i="22">Calculate</button></div>
+    <div><label for="oh19">Home <span class="srcbadge">composite</span></label><input id="oh19" inputmode="text" value="-143"></div>
+    <div><label for="od19">Draw</label><input id="od19" inputmode="text" value="+250"></div>
+    <div><label for="oa19">Away</label><input id="oa19" inputmode="text" value="+363"></div>
+    <div class="bcell"><button class="go" data-i="19">Calculate</button></div>
   </div>
-  <div class="cverd" id="out22"></div>
+  <div class="cverd" id="out19"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span> Scotland</span><span class="meta">1790 · €205M</span></div>
     <div class="side R"><span class="tname fav">Morocco <span class="fl">🇲🇦</span></span><span class="meta">1904 · €380M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh23">Home <span class="srcbadge">composite</span></label><input id="oh23" inputmode="text" value="+252"></div>
-    <div><label for="od23">Draw</label><input id="od23" inputmode="text" value="+213"></div>
-    <div><label for="oa23">Away</label><input id="oa23" inputmode="text" value="+105"></div>
-    <div class="bcell"><button class="go" data-i="23">Calculate</button></div>
+    <div><label for="oh20">Home <span class="srcbadge">composite</span></label><input id="oh20" inputmode="text" value="+252"></div>
+    <div><label for="od20">Draw</label><input id="od20" inputmode="text" value="+213"></div>
+    <div><label for="oa20">Away</label><input id="oa20" inputmode="text" value="+105"></div>
+    <div class="bcell"><button class="go" data-i="20">Calculate</button></div>
   </div>
-  <div class="cverd" id="out23"></div>
+  <div class="cverd" id="out20"></div>
 </div><div class="datehdr">2026-06-20</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇧🇷</span> Brazil</span><span class="meta">1971 · €810M</span></div>
     <div class="side R"><span class="tname">Haiti <span class="fl">🇭🇹</span></span><span class="meta">1658 · €51M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh24">Home <span class="srcbadge">composite</span></label><input id="oh24" inputmode="text" value="-2500"></div>
-    <div><label for="od24">Draw</label><input id="od24" inputmode="text" value="+1099"></div>
-    <div><label for="oa24">Away</label><input id="oa24" inputmode="text" value="+2913"></div>
-    <div class="bcell"><button class="go" data-i="24">Calculate</button></div>
+    <div><label for="oh21">Home <span class="srcbadge">composite</span></label><input id="oh21" inputmode="text" value="-2500"></div>
+    <div><label for="od21">Draw</label><input id="od21" inputmode="text" value="+1099"></div>
+    <div><label for="oa21">Away</label><input id="oa21" inputmode="text" value="+2913"></div>
+    <div class="bcell"><button class="go" data-i="21">Calculate</button></div>
   </div>
-  <div class="cverd" id="out24"></div>
+  <div class="cverd" id="out21"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇹🇷</span> Turkey</span><span class="meta">1843 · €385M</span></div>
     <div class="side R"><span class="tname">Paraguay <span class="fl">🇵🇾</span></span><span class="meta">1795 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh25">Home <span class="srcbadge">composite</span></label><input id="oh25" inputmode="text" value="+119"></div>
-    <div><label for="od25">Draw</label><input id="od25" inputmode="text" value="+205"></div>
-    <div><label for="oa25">Away</label><input id="oa25" inputmode="text" value="+229"></div>
+    <div><label for="oh22">Home <span class="srcbadge">composite</span></label><input id="oh22" inputmode="text" value="+119"></div>
+    <div><label for="od22">Draw</label><input id="od22" inputmode="text" value="+205"></div>
+    <div><label for="oa22">Away</label><input id="oa22" inputmode="text" value="+229"></div>
+    <div class="bcell"><button class="go" data-i="22">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out22"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1775 · €440M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh23">Home <span class="srcbadge">composite</span></label><input id="oh23" inputmode="text" value="-159"></div>
+    <div><label for="od23">Draw</label><input id="od23" inputmode="text" value="+277"></div>
+    <div><label for="oa23">Away</label><input id="oa23" inputmode="text" value="+379"></div>
+    <div class="bcell"><button class="go" data-i="23">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out23"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇩🇪</span> Germany</span><span class="meta">1918 · €926M</span></div>
+    <div class="side R"><span class="tname">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1820 · €420M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh24">Home <span class="srcbadge">composite</span></label><input id="oh24" inputmode="text" value="-185"></div>
+    <div><label for="od24">Draw</label><input id="od24" inputmode="text" value="+300"></div>
+    <div><label for="oa24">Away</label><input id="oa24" inputmode="text" value="+431"></div>
+    <div class="bcell"><button class="go" data-i="24">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out24"></div>
+</div><div class="datehdr">2026-06-21</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname fav"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1897 · €298M</span></div>
+    <div class="side R"><span class="tname">Curaçao <span class="fl">🇨🇼</span></span><span class="meta">1570 · €34M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh25">Home <span class="srcbadge">composite</span></label><input id="oh25" inputmode="text" value="-435"></div>
+    <div><label for="od25">Draw</label><input id="od25" inputmode="text" value="+444"></div>
+    <div><label for="oa25">Away</label><input id="oa25" inputmode="text" value="+1083"></div>
     <div class="bcell"><button class="go" data-i="25">Calculate</button></div>
   </div>
   <div class="cverd" id="out25"></div>
 </div><div class="match calc">
   <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇳🇱</span> Netherlands</span><span class="meta">1903 · €835M</span></div>
-    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh26">Home <span class="srcbadge">composite</span></label><input id="oh26" inputmode="text" value="-159"></div>
-    <div><label for="od26">Draw</label><input id="od26" inputmode="text" value="+277"></div>
-    <div><label for="oa26">Away</label><input id="oa26" inputmode="text" value="+379"></div>
-    <div class="bcell"><button class="go" data-i="26">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out26"></div>
-</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇩🇪</span> Germany</span><span class="meta">1918 · €926M</span></div>
-    <div class="side R"><span class="tname">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh27">Home <span class="srcbadge">composite</span></label><input id="oh27" inputmode="text" value="-185"></div>
-    <div><label for="od27">Draw</label><input id="od27" inputmode="text" value="+300"></div>
-    <div><label for="oa27">Away</label><input id="oa27" inputmode="text" value="+431"></div>
-    <div class="bcell"><button class="go" data-i="27">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out27"></div>
-</div><div class="datehdr">2026-06-21</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
-    <div class="side R"><span class="tname">Curaçao <span class="fl">🇨🇼</span></span><span class="meta">1570 · €34M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh28">Home <span class="srcbadge">composite</span></label><input id="oh28" inputmode="text" value="-435"></div>
-    <div><label for="od28">Draw</label><input id="od28" inputmode="text" value="+444"></div>
-    <div><label for="oa28">Away</label><input id="oa28" inputmode="text" value="+1083"></div>
-    <div class="bcell"><button class="go" data-i="28">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out28"></div>
-</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1662 · €45M</span></div>
     <div class="side R"><span class="tname fav">Japan <span class="fl">🇯🇵</span></span><span class="meta">1908 · €222M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh29">Home <span class="srcbadge">composite</span></label><input id="oh29" inputmode="text" value="+328"></div>
-    <div><label for="od29">Draw</label><input id="od29" inputmode="text" value="+224"></div>
-    <div><label for="oa29">Away</label><input id="oa29" inputmode="text" value="-119"></div>
-    <div class="bcell"><button class="go" data-i="29">Calculate</button></div>
+    <div><label for="oh26">Home <span class="srcbadge">composite</span></label><input id="oh26" inputmode="text" value="+328"></div>
+    <div><label for="od26">Draw</label><input id="od26" inputmode="text" value="+224"></div>
+    <div><label for="oa26">Away</label><input id="oa26" inputmode="text" value="-119"></div>
+    <div class="bcell"><button class="go" data-i="26">Calculate</button></div>
   </div>
-  <div class="cverd" id="out29"></div>
+  <div class="cverd" id="out26"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇪🇸</span> Spain</span><span class="meta">2065 · €950M</span></div>
     <div class="side R"><span class="tname">Saudi Arabia <span class="fl">🇸🇦</span></span><span class="meta">1638 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh30">Home <span class="srcbadge">composite</span></label><input id="oh30" inputmode="text" value="-909"></div>
-    <div><label for="od30">Draw</label><input id="od30" inputmode="text" value="+663"></div>
-    <div><label for="oa30">Away</label><input id="oa30" inputmode="text" value="+2063"></div>
-    <div class="bcell"><button class="go" data-i="30">Calculate</button></div>
+    <div><label for="oh27">Home <span class="srcbadge">composite</span></label><input id="oh27" inputmode="text" value="-909"></div>
+    <div><label for="od27">Draw</label><input id="od27" inputmode="text" value="+663"></div>
+    <div><label for="oa27">Away</label><input id="oa27" inputmode="text" value="+2063"></div>
+    <div class="bcell"><button class="go" data-i="27">Calculate</button></div>
   </div>
-  <div class="cverd" id="out30"></div>
+  <div class="cverd" id="out27"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇧🇪</span> Belgium</span><span class="meta">1903 · €454M</span></div>
     <div class="side R"><span class="tname">Iran <span class="fl">🇮🇷</span></span><span class="meta">1825 · €22M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh31">Home <span class="srcbadge">composite</span></label><input id="oh31" inputmode="text" value="-244"></div>
-    <div><label for="od31">Draw</label><input id="od31" inputmode="text" value="+330"></div>
-    <div><label for="oa31">Away</label><input id="oa31" inputmode="text" value="+598"></div>
-    <div class="bcell"><button class="go" data-i="31">Calculate</button></div>
+    <div><label for="oh28">Home <span class="srcbadge">composite</span></label><input id="oh28" inputmode="text" value="-244"></div>
+    <div><label for="od28">Draw</label><input id="od28" inputmode="text" value="+330"></div>
+    <div><label for="oa28">Away</label><input id="oa28" inputmode="text" value="+598"></div>
+    <div class="bcell"><button class="go" data-i="28">Calculate</button></div>
   </div>
-  <div class="cverd" id="out31"></div>
+  <div class="cverd" id="out28"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇺🇾</span> Uruguay</span><span class="meta">1865 · €453M</span></div>
     <div class="side R"><span class="tname">Cape Verde <span class="fl">🇨🇻</span></span><span class="meta">1629 · €43M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh32">Home <span class="srcbadge">composite</span></label><input id="oh32" inputmode="text" value="-233"></div>
-    <div><label for="od32">Draw</label><input id="od32" inputmode="text" value="+323"></div>
-    <div><label for="oa32">Away</label><input id="oa32" inputmode="text" value="+563"></div>
-    <div class="bcell"><button class="go" data-i="32">Calculate</button></div>
+    <div><label for="oh29">Home <span class="srcbadge">composite</span></label><input id="oh29" inputmode="text" value="-233"></div>
+    <div><label for="od29">Draw</label><input id="od29" inputmode="text" value="+323"></div>
+    <div><label for="oa29">Away</label><input id="oa29" inputmode="text" value="+563"></div>
+    <div class="bcell"><button class="go" data-i="29">Calculate</button></div>
   </div>
-  <div class="cverd" id="out32"></div>
+  <div class="cverd" id="out29"></div>
 </div><div class="datehdr">2026-06-22</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇳🇿</span> New Zealand</span><span class="meta">1645 · €23M</span></div>
     <div class="side R"><span class="tname fav">Egypt <span class="fl">🇪🇬</span></span><span class="meta">1760 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh33">Home <span class="srcbadge">composite</span></label><input id="oh33" inputmode="text" value="+389"></div>
-    <div><label for="od33">Draw</label><input id="od33" inputmode="text" value="+247"></div>
-    <div><label for="oa33">Away</label><input id="oa33" inputmode="text" value="-147"></div>
-    <div class="bcell"><button class="go" data-i="33">Calculate</button></div>
+    <div><label for="oh30">Home <span class="srcbadge">composite</span></label><input id="oh30" inputmode="text" value="+389"></div>
+    <div><label for="od30">Draw</label><input id="od30" inputmode="text" value="+247"></div>
+    <div><label for="oa30">Away</label><input id="oa30" inputmode="text" value="-147"></div>
+    <div class="bcell"><button class="go" data-i="30">Calculate</button></div>
   </div>
-  <div class="cverd" id="out33"></div>
+  <div class="cverd" id="out30"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇦🇷</span> Argentina</span><span class="meta">2050 · €836M</span></div>
     <div class="side R"><span class="tname">Austria <span class="fl">🇦🇹</span></span><span class="meta">1836 · €271M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh34">Home <span class="srcbadge">composite</span></label><input id="oh34" inputmode="text" value="-154"></div>
-    <div><label for="od34">Draw</label><input id="od34" inputmode="text" value="+260"></div>
-    <div><label for="oa34">Away</label><input id="oa34" inputmode="text" value="+392"></div>
-    <div class="bcell"><button class="go" data-i="34">Calculate</button></div>
+    <div><label for="oh31">Home <span class="srcbadge">composite</span></label><input id="oh31" inputmode="text" value="-154"></div>
+    <div><label for="od31">Draw</label><input id="od31" inputmode="text" value="+260"></div>
+    <div><label for="oa31">Away</label><input id="oa31" inputmode="text" value="+392"></div>
+    <div class="bcell"><button class="go" data-i="31">Calculate</button></div>
   </div>
-  <div class="cverd" id="out34"></div>
+  <div class="cverd" id="out31"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇫🇷</span> France</span><span class="meta">2000 · €1.5B</span></div>
     <div class="side R"><span class="tname">Iraq <span class="fl">🇮🇶</span></span><span class="meta">1675 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh35">Home <span class="srcbadge">composite</span></label><input id="oh35" inputmode="text" value="-833"></div>
-    <div><label for="od35">Draw</label><input id="od35" inputmode="text" value="+600"></div>
-    <div><label for="oa35">Away</label><input id="oa35" inputmode="text" value="+1764"></div>
-    <div class="bcell"><button class="go" data-i="35">Calculate</button></div>
+    <div><label for="oh32">Home <span class="srcbadge">composite</span></label><input id="oh32" inputmode="text" value="-833"></div>
+    <div><label for="od32">Draw</label><input id="od32" inputmode="text" value="+600"></div>
+    <div><label for="oa32">Away</label><input id="oa32" inputmode="text" value="+1764"></div>
+    <div class="bcell"><button class="go" data-i="32">Calculate</button></div>
   </div>
-  <div class="cverd" id="out35"></div>
+  <div class="cverd" id="out32"></div>
 </div><div class="datehdr">2026-06-23</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇳🇴</span> Norway</span><span class="meta">1901 · €524M</span></div>
     <div class="side R"><span class="tname">Senegal <span class="fl">🇸🇳</span></span><span class="meta">1831 · €391M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh36">Home <span class="srcbadge">composite</span></label><input id="oh36" inputmode="text" value="+102"></div>
-    <div><label for="od36">Draw</label><input id="od36" inputmode="text" value="+228"></div>
-    <div><label for="oa36">Away</label><input id="oa36" inputmode="text" value="+245"></div>
-    <div class="bcell"><button class="go" data-i="36">Calculate</button></div>
+    <div><label for="oh33">Home <span class="srcbadge">composite</span></label><input id="oh33" inputmode="text" value="+102"></div>
+    <div><label for="od33">Draw</label><input id="od33" inputmode="text" value="+228"></div>
+    <div><label for="oa33">Away</label><input id="oa33" inputmode="text" value="+245"></div>
+    <div class="bcell"><button class="go" data-i="33">Calculate</button></div>
   </div>
-  <div class="cverd" id="out36"></div>
+  <div class="cverd" id="out33"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇯🇴</span> Jordan</span><span class="meta">1712 · —</span></div>
     <div class="side R"><span class="tname fav">Algeria <span class="fl">🇩🇿</span></span><span class="meta">1842 · €199M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh37">Home <span class="srcbadge">composite</span></label><input id="oh37" inputmode="text" value="+356"></div>
-    <div><label for="od37">Draw</label><input id="od37" inputmode="text" value="+255"></div>
-    <div><label for="oa37">Away</label><input id="oa37" inputmode="text" value="-145"></div>
-    <div class="bcell"><button class="go" data-i="37">Calculate</button></div>
+    <div><label for="oh34">Home <span class="srcbadge">composite</span></label><input id="oh34" inputmode="text" value="+356"></div>
+    <div><label for="od34">Draw</label><input id="od34" inputmode="text" value="+255"></div>
+    <div><label for="oa34">Away</label><input id="oa34" inputmode="text" value="-145"></div>
+    <div class="bcell"><button class="go" data-i="34">Calculate</button></div>
   </div>
-  <div class="cverd" id="out37"></div>
+  <div class="cverd" id="out34"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇵🇹</span> Portugal</span><span class="meta">1943 · €1.0B</span></div>
     <div class="side R"><span class="tname">Uzbekistan <span class="fl">🇺🇿</span></span><span class="meta">1747 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh38">Home <span class="srcbadge">composite</span></label><input id="oh38" inputmode="text" value="-500"></div>
-    <div><label for="od38">Draw</label><input id="od38" inputmode="text" value="+501"></div>
-    <div><label for="oa38">Away</label><input id="oa38" inputmode="text" value="+1108"></div>
-    <div class="bcell"><button class="go" data-i="38">Calculate</button></div>
+    <div><label for="oh35">Home <span class="srcbadge">composite</span></label><input id="oh35" inputmode="text" value="-500"></div>
+    <div><label for="od35">Draw</label><input id="od35" inputmode="text" value="+501"></div>
+    <div><label for="oa35">Away</label><input id="oa35" inputmode="text" value="+1108"></div>
+    <div class="bcell"><button class="go" data-i="35">Calculate</button></div>
   </div>
-  <div class="cverd" id="out38"></div>
+  <div class="cverd" id="out35"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</span><span class="meta">1962 · €1.3B</span></div>
     <div class="side R"><span class="tname">Ghana <span class="fl">🇬🇭</span></span><span class="meta">1612 · €181M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh39">Home <span class="srcbadge">composite</span></label><input id="oh39" inputmode="text" value="-323"></div>
-    <div><label for="od39">Draw</label><input id="od39" inputmode="text" value="+382"></div>
-    <div><label for="oa39">Away</label><input id="oa39" inputmode="text" value="+757"></div>
-    <div class="bcell"><button class="go" data-i="39">Calculate</button></div>
+    <div><label for="oh36">Home <span class="srcbadge">composite</span></label><input id="oh36" inputmode="text" value="-323"></div>
+    <div><label for="od36">Draw</label><input id="od36" inputmode="text" value="+382"></div>
+    <div><label for="oa36">Away</label><input id="oa36" inputmode="text" value="+757"></div>
+    <div class="bcell"><button class="go" data-i="36">Calculate</button></div>
   </div>
-  <div class="cverd" id="out39"></div>
+  <div class="cverd" id="out36"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇵🇦</span> Panama</span><span class="meta">1754 · —</span></div>
     <div class="side R"><span class="tname fav">Croatia <span class="fl">🇭🇷</span></span><span class="meta">1869 · €308M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh40">Home <span class="srcbadge">composite</span></label><input id="oh40" inputmode="text" value="+519"></div>
-    <div><label for="od40">Draw</label><input id="od40" inputmode="text" value="+291"></div>
-    <div><label for="oa40">Away</label><input id="oa40" inputmode="text" value="-208"></div>
-    <div class="bcell"><button class="go" data-i="40">Calculate</button></div>
+    <div><label for="oh37">Home <span class="srcbadge">composite</span></label><input id="oh37" inputmode="text" value="+519"></div>
+    <div><label for="od37">Draw</label><input id="od37" inputmode="text" value="+291"></div>
+    <div><label for="oa37">Away</label><input id="oa37" inputmode="text" value="-208"></div>
+    <div class="bcell"><button class="go" data-i="37">Calculate</button></div>
   </div>
-  <div class="cverd" id="out40"></div>
+  <div class="cverd" id="out37"></div>
 </div><div class="datehdr">2026-06-24</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇨🇴</span> Colombia</span><span class="meta">1958 · €216M</span></div>
     <div class="side R"><span class="tname">DR Congo <span class="fl">🇨🇩</span></span><span class="meta">1719 · €115M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh41">Home <span class="srcbadge">composite</span></label><input id="oh41" inputmode="text" value="-204"></div>
-    <div><label for="od41">Draw</label><input id="od41" inputmode="text" value="+283"></div>
-    <div><label for="oa41">Away</label><input id="oa41" inputmode="text" value="+539"></div>
-    <div class="bcell"><button class="go" data-i="41">Calculate</button></div>
+    <div><label for="oh38">Home <span class="srcbadge">composite</span></label><input id="oh38" inputmode="text" value="-204"></div>
+    <div><label for="od38">Draw</label><input id="od38" inputmode="text" value="+283"></div>
+    <div><label for="oa38">Away</label><input id="oa38" inputmode="text" value="+539"></div>
+    <div class="bcell"><button class="go" data-i="38">Calculate</button></div>
   </div>
-  <div class="cverd" id="out41"></div>
+  <div class="cverd" id="out38"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇨🇭</span> Switzerland</span><span class="meta">1865 · €310M</span></div>
     <div class="side R"><span class="tname">Canada <span class="fl">🇨🇦</span></span><span class="meta">1812 · €146M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh42">Home <span class="srcbadge">composite</span></label><input id="oh42" inputmode="text" value="+100"></div>
-    <div><label for="od42">Draw</label><input id="od42" inputmode="text" value="+240"></div>
-    <div><label for="oa42">Away</label><input id="oa42" inputmode="text" value="+248"></div>
-    <div class="bcell"><button class="go" data-i="42">Calculate</button></div>
+    <div><label for="oh39">Home <span class="srcbadge">composite</span></label><input id="oh39" inputmode="text" value="+100"></div>
+    <div><label for="od39">Draw</label><input id="od39" inputmode="text" value="+240"></div>
+    <div><label for="oa39">Away</label><input id="oa39" inputmode="text" value="+248"></div>
+    <div class="bcell"><button class="go" data-i="39">Calculate</button></div>
   </div>
-  <div class="cverd" id="out42"></div>
+  <div class="cverd" id="out39"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇧🇦</span> Bosnia and Herzegovina</span><span class="meta">1646 · €77M</span></div>
     <div class="side R"><span class="tname">Qatar <span class="fl">🇶🇦</span></span><span class="meta">1530 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh43">Home <span class="srcbadge">composite</span></label><input id="oh43" inputmode="text" value="-118"></div>
-    <div><label for="od43">Draw</label><input id="od43" inputmode="text" value="+238"></div>
-    <div><label for="oa43">Away</label><input id="oa43" inputmode="text" value="+320"></div>
-    <div class="bcell"><button class="go" data-i="43">Calculate</button></div>
+    <div><label for="oh40">Home <span class="srcbadge">composite</span></label><input id="oh40" inputmode="text" value="-118"></div>
+    <div><label for="od40">Draw</label><input id="od40" inputmode="text" value="+238"></div>
+    <div><label for="oa40">Away</label><input id="oa40" inputmode="text" value="+320"></div>
+    <div class="bcell"><button class="go" data-i="40">Calculate</button></div>
   </div>
-  <div class="cverd" id="out43"></div>
+  <div class="cverd" id="out40"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇲🇦</span> Morocco</span><span class="meta">1904 · €380M</span></div>
     <div class="side R"><span class="tname">Haiti <span class="fl">🇭🇹</span></span><span class="meta">1658 · €51M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh44">Home <span class="srcbadge">composite</span></label><input id="oh44" inputmode="text" value="-400"></div>
-    <div><label for="od44">Draw</label><input id="od44" inputmode="text" value="+413"></div>
-    <div><label for="oa44">Away</label><input id="oa44" inputmode="text" value="+1100"></div>
-    <div class="bcell"><button class="go" data-i="44">Calculate</button></div>
+    <div><label for="oh41">Home <span class="srcbadge">composite</span></label><input id="oh41" inputmode="text" value="-400"></div>
+    <div><label for="od41">Draw</label><input id="od41" inputmode="text" value="+413"></div>
+    <div><label for="oa41">Away</label><input id="oa41" inputmode="text" value="+1100"></div>
+    <div class="bcell"><button class="go" data-i="41">Calculate</button></div>
   </div>
-  <div class="cverd" id="out44"></div>
+  <div class="cverd" id="out41"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span> Scotland</span><span class="meta">1790 · €205M</span></div>
     <div class="side R"><span class="tname fav">Brazil <span class="fl">🇧🇷</span></span><span class="meta">1971 · €810M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh45">Home <span class="srcbadge">composite</span></label><input id="oh45" inputmode="text" value="+688"></div>
-    <div><label for="od45">Draw</label><input id="od45" inputmode="text" value="+351"></div>
-    <div><label for="oa45">Away</label><input id="oa45" inputmode="text" value="-286"></div>
-    <div class="bcell"><button class="go" data-i="45">Calculate</button></div>
+    <div><label for="oh42">Home <span class="srcbadge">composite</span></label><input id="oh42" inputmode="text" value="+688"></div>
+    <div><label for="od42">Draw</label><input id="od42" inputmode="text" value="+351"></div>
+    <div><label for="oa42">Away</label><input id="oa42" inputmode="text" value="-286"></div>
+    <div class="bcell"><button class="go" data-i="42">Calculate</button></div>
   </div>
-  <div class="cverd" id="out45"></div>
+  <div class="cverd" id="out42"></div>
 </div><div class="datehdr">2026-06-25</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇨🇿</span> Czech Republic</span><span class="meta">1730 · €126M</span></div>
     <div class="side R"><span class="tname fav">Mexico <span class="fl">🇲🇽</span></span><span class="meta">1880 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh46">Home <span class="srcbadge">composite</span></label><input id="oh46" inputmode="text" value="+263"></div>
-    <div><label for="od46">Draw</label><input id="od46" inputmode="text" value="+225"></div>
-    <div><label for="oa46">Away</label><input id="oa46" inputmode="text" value="+100"></div>
-    <div class="bcell"><button class="go" data-i="46">Calculate</button></div>
+    <div><label for="oh43">Home <span class="srcbadge">composite</span></label><input id="oh43" inputmode="text" value="+263"></div>
+    <div><label for="od43">Draw</label><input id="od43" inputmode="text" value="+225"></div>
+    <div><label for="oa43">Away</label><input id="oa43" inputmode="text" value="+100"></div>
+    <div class="bcell"><button class="go" data-i="43">Calculate</button></div>
   </div>
-  <div class="cverd" id="out46"></div>
+  <div class="cverd" id="out43"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇿🇦</span> South Africa</span><span class="meta">1618 · —</span></div>
     <div class="side R"><span class="tname fav">South Korea <span class="fl">🇰🇷</span></span><span class="meta">1823 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh47">Home <span class="srcbadge">composite</span></label><input id="oh47" inputmode="text" value="+198"></div>
-    <div><label for="od47">Draw</label><input id="od47" inputmode="text" value="+218"></div>
-    <div><label for="oa47">Away</label><input id="oa47" inputmode="text" value="+133"></div>
+    <div><label for="oh44">Home <span class="srcbadge">composite</span></label><input id="oh44" inputmode="text" value="+198"></div>
+    <div><label for="od44">Draw</label><input id="od44" inputmode="text" value="+218"></div>
+    <div><label for="oa44">Away</label><input id="oa44" inputmode="text" value="+133"></div>
+    <div class="bcell"><button class="go" data-i="44">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out44"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1897 · €298M</span></div>
+    <div class="side R"><span class="tname fav">Germany <span class="fl">🇩🇪</span></span><span class="meta">1918 · €926M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh45">Home <span class="srcbadge">composite</span></label><input id="oh45" inputmode="text" value="+413"></div>
+    <div><label for="od45">Draw</label><input id="od45" inputmode="text" value="+285"></div>
+    <div><label for="oa45">Away</label><input id="oa45" inputmode="text" value="-169"></div>
+    <div class="bcell"><button class="go" data-i="45">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out45"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇨🇼</span> Curaçao</span><span class="meta">1570 · €34M</span></div>
+    <div class="side R"><span class="tname fav">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1820 · €420M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh46">Home <span class="srcbadge">composite</span></label><input id="oh46" inputmode="text" value="+1150"></div>
+    <div><label for="od46">Draw</label><input id="od46" inputmode="text" value="+403"></div>
+    <div><label for="oa46">Away</label><input id="oa46" inputmode="text" value="-400"></div>
+    <div class="bcell"><button class="go" data-i="46">Calculate</button></div>
+  </div>
+  <div class="cverd" id="out46"></div>
+</div><div class="match calc">
+  <div class="vsrow">
+    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1662 · €45M</span></div>
+    <div class="side R"><span class="tname fav">Netherlands <span class="fl">🇳🇱</span></span><span class="meta">1903 · €835M</span></div>
+  </div>
+  <div class="orow">
+    <div><label for="oh47">Home <span class="srcbadge">composite</span></label><input id="oh47" inputmode="text" value="+563"></div>
+    <div><label for="od47">Draw</label><input id="od47" inputmode="text" value="+288"></div>
+    <div><label for="oa47">Away</label><input id="oa47" inputmode="text" value="-200"></div>
     <div class="bcell"><button class="go" data-i="47">Calculate</button></div>
   </div>
   <div class="cverd" id="out47"></div>
 </div><div class="match calc">
   <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇪🇨</span> Ecuador</span><span class="meta">1927 · €298M</span></div>
-    <div class="side R"><span class="tname fav">Germany <span class="fl">🇩🇪</span></span><span class="meta">1918 · €926M</span></div>
+    <div class="side L"><span class="tname fav"><span class="fl">🇯🇵</span> Japan</span><span class="meta">1908 · €222M</span></div>
+    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1775 · €440M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh48">Home <span class="srcbadge">composite</span></label><input id="oh48" inputmode="text" value="+413"></div>
-    <div><label for="od48">Draw</label><input id="od48" inputmode="text" value="+285"></div>
-    <div><label for="oa48">Away</label><input id="oa48" inputmode="text" value="-169"></div>
+    <div><label for="oh48">Home <span class="srcbadge">composite</span></label><input id="oh48" inputmode="text" value="+123"></div>
+    <div><label for="od48">Draw</label><input id="od48" inputmode="text" value="+220"></div>
+    <div><label for="oa48">Away</label><input id="oa48" inputmode="text" value="+213"></div>
     <div class="bcell"><button class="go" data-i="48">Calculate</button></div>
   </div>
   <div class="cverd" id="out48"></div>
-</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇨🇼</span> Curaçao</span><span class="meta">1570 · €34M</span></div>
-    <div class="side R"><span class="tname fav">Ivory Coast <span class="fl">🇨🇮</span></span><span class="meta">1790 · €420M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh49">Home <span class="srcbadge">composite</span></label><input id="oh49" inputmode="text" value="+1150"></div>
-    <div><label for="od49">Draw</label><input id="od49" inputmode="text" value="+403"></div>
-    <div><label for="oa49">Away</label><input id="oa49" inputmode="text" value="-400"></div>
-    <div class="bcell"><button class="go" data-i="49">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out49"></div>
-</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname"><span class="fl">🇹🇳</span> Tunisia</span><span class="meta">1704 · €45M</span></div>
-    <div class="side R"><span class="tname fav">Netherlands <span class="fl">🇳🇱</span></span><span class="meta">1903 · €835M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh50">Home <span class="srcbadge">composite</span></label><input id="oh50" inputmode="text" value="+563"></div>
-    <div><label for="od50">Draw</label><input id="od50" inputmode="text" value="+288"></div>
-    <div><label for="oa50">Away</label><input id="oa50" inputmode="text" value="-200"></div>
-    <div class="bcell"><button class="go" data-i="50">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out50"></div>
-</div><div class="match calc">
-  <div class="vsrow">
-    <div class="side L"><span class="tname fav"><span class="fl">🇯🇵</span> Japan</span><span class="meta">1908 · €222M</span></div>
-    <div class="side R"><span class="tname">Sweden <span class="fl">🇸🇪</span></span><span class="meta">1733 · €440M</span></div>
-  </div>
-  <div class="orow">
-    <div><label for="oh51">Home <span class="srcbadge">composite</span></label><input id="oh51" inputmode="text" value="+123"></div>
-    <div><label for="od51">Draw</label><input id="od51" inputmode="text" value="+220"></div>
-    <div><label for="oa51">Away</label><input id="oa51" inputmode="text" value="+213"></div>
-    <div class="bcell"><button class="go" data-i="51">Calculate</button></div>
-  </div>
-  <div class="cverd" id="out51"></div>
 </div><div class="datehdr">2026-06-26</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇹🇷</span> Turkey</span><span class="meta">1843 · €385M</span></div>
     <div class="side R"><span class="tname">United States <span class="fl">🇺🇸</span></span><span class="meta">1794 · €323M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh52">Home <span class="srcbadge">composite</span></label><input id="oh52" inputmode="text" value="+188"></div>
-    <div><label for="od52">Draw</label><input id="od52" inputmode="text" value="+235"></div>
-    <div><label for="oa52">Away</label><input id="oa52" inputmode="text" value="+140"></div>
-    <div class="bcell"><button class="go" data-i="52">Calculate</button></div>
+    <div><label for="oh49">Home <span class="srcbadge">composite</span></label><input id="oh49" inputmode="text" value="+188"></div>
+    <div><label for="od49">Draw</label><input id="od49" inputmode="text" value="+235"></div>
+    <div><label for="oa49">Away</label><input id="oa49" inputmode="text" value="+140"></div>
+    <div class="bcell"><button class="go" data-i="49">Calculate</button></div>
   </div>
-  <div class="cverd" id="out52"></div>
+  <div class="cverd" id="out49"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇵🇾</span> Paraguay</span><span class="meta">1795 · —</span></div>
     <div class="side R"><span class="tname">Australia <span class="fl">🇦🇺</span></span><span class="meta">1855 · €34M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh53">Home <span class="srcbadge">composite</span></label><input id="oh53" inputmode="text" value="+108"></div>
-    <div><label for="od53">Draw</label><input id="od53" inputmode="text" value="+223"></div>
-    <div><label for="oa53">Away</label><input id="oa53" inputmode="text" value="+245"></div>
-    <div class="bcell"><button class="go" data-i="53">Calculate</button></div>
+    <div><label for="oh50">Home <span class="srcbadge">composite</span></label><input id="oh50" inputmode="text" value="+108"></div>
+    <div><label for="od50">Draw</label><input id="od50" inputmode="text" value="+223"></div>
+    <div><label for="oa50">Away</label><input id="oa50" inputmode="text" value="+245"></div>
+    <div class="bcell"><button class="go" data-i="50">Calculate</button></div>
   </div>
-  <div class="cverd" id="out53"></div>
+  <div class="cverd" id="out50"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇳🇴</span> Norway</span><span class="meta">1901 · €524M</span></div>
     <div class="side R"><span class="tname fav">France <span class="fl">🇫🇷</span></span><span class="meta">2000 · €1.5B</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh54">Home <span class="srcbadge">composite</span></label><input id="oh54" inputmode="text" value="+413"></div>
-    <div><label for="od54">Draw</label><input id="od54" inputmode="text" value="+260"></div>
-    <div><label for="oa54">Away</label><input id="oa54" inputmode="text" value="-156"></div>
-    <div class="bcell"><button class="go" data-i="54">Calculate</button></div>
+    <div><label for="oh51">Home <span class="srcbadge">composite</span></label><input id="oh51" inputmode="text" value="+413"></div>
+    <div><label for="od51">Draw</label><input id="od51" inputmode="text" value="+260"></div>
+    <div><label for="oa51">Away</label><input id="oa51" inputmode="text" value="-156"></div>
+    <div class="bcell"><button class="go" data-i="51">Calculate</button></div>
   </div>
-  <div class="cverd" id="out54"></div>
+  <div class="cverd" id="out51"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇸🇳</span> Senegal</span><span class="meta">1831 · €391M</span></div>
     <div class="side R"><span class="tname">Iraq <span class="fl">🇮🇶</span></span><span class="meta">1675 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh55">Home <span class="srcbadge">composite</span></label><input id="oh55" inputmode="text" value="-200"></div>
-    <div><label for="od55">Draw</label><input id="od55" inputmode="text" value="+280"></div>
-    <div><label for="oa55">Away</label><input id="oa55" inputmode="text" value="+575"></div>
-    <div class="bcell"><button class="go" data-i="55">Calculate</button></div>
+    <div><label for="oh52">Home <span class="srcbadge">composite</span></label><input id="oh52" inputmode="text" value="-200"></div>
+    <div><label for="od52">Draw</label><input id="od52" inputmode="text" value="+280"></div>
+    <div><label for="oa52">Away</label><input id="oa52" inputmode="text" value="+575"></div>
+    <div class="bcell"><button class="go" data-i="52">Calculate</button></div>
   </div>
-  <div class="cverd" id="out55"></div>
+  <div class="cverd" id="out52"></div>
 </div><div class="datehdr">2026-06-27</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇺🇾</span> Uruguay</span><span class="meta">1865 · €453M</span></div>
     <div class="side R"><span class="tname fav">Spain <span class="fl">🇪🇸</span></span><span class="meta">2065 · €950M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh56">Home <span class="srcbadge">composite</span></label><input id="oh56" inputmode="text" value="+450"></div>
-    <div><label for="od56">Draw</label><input id="od56" inputmode="text" value="+280"></div>
-    <div><label for="oa56">Away</label><input id="oa56" inputmode="text" value="-172"></div>
-    <div class="bcell"><button class="go" data-i="56">Calculate</button></div>
+    <div><label for="oh53">Home <span class="srcbadge">composite</span></label><input id="oh53" inputmode="text" value="+450"></div>
+    <div><label for="od53">Draw</label><input id="od53" inputmode="text" value="+280"></div>
+    <div><label for="oa53">Away</label><input id="oa53" inputmode="text" value="-172"></div>
+    <div class="bcell"><button class="go" data-i="53">Calculate</button></div>
   </div>
-  <div class="cverd" id="out56"></div>
+  <div class="cverd" id="out53"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇨🇻</span> Cape Verde</span><span class="meta">1629 · €43M</span></div>
     <div class="side R"><span class="tname fav">Saudi Arabia <span class="fl">🇸🇦</span></span><span class="meta">1638 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh57">Home <span class="srcbadge">composite</span></label><input id="oh57" inputmode="text" value="+270"></div>
-    <div><label for="od57">Draw</label><input id="od57" inputmode="text" value="+215"></div>
-    <div><label for="oa57">Away</label><input id="oa57" inputmode="text" value="+103"></div>
-    <div class="bcell"><button class="go" data-i="57">Calculate</button></div>
+    <div><label for="oh54">Home <span class="srcbadge">composite</span></label><input id="oh54" inputmode="text" value="+270"></div>
+    <div><label for="od54">Draw</label><input id="od54" inputmode="text" value="+215"></div>
+    <div><label for="oa54">Away</label><input id="oa54" inputmode="text" value="+103"></div>
+    <div class="bcell"><button class="go" data-i="54">Calculate</button></div>
   </div>
-  <div class="cverd" id="out57"></div>
+  <div class="cverd" id="out54"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇳🇿</span> New Zealand</span><span class="meta">1645 · €23M</span></div>
     <div class="side R"><span class="tname fav">Belgium <span class="fl">🇧🇪</span></span><span class="meta">1903 · €454M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh58">Home <span class="srcbadge">composite</span></label><input id="oh58" inputmode="text" value="+1650"></div>
-    <div><label for="od58">Draw</label><input id="od58" inputmode="text" value="+475"></div>
-    <div><label for="oa58">Away</label><input id="oa58" inputmode="text" value="-556"></div>
-    <div class="bcell"><button class="go" data-i="58">Calculate</button></div>
+    <div><label for="oh55">Home <span class="srcbadge">composite</span></label><input id="oh55" inputmode="text" value="+1650"></div>
+    <div><label for="od55">Draw</label><input id="od55" inputmode="text" value="+475"></div>
+    <div><label for="oa55">Away</label><input id="oa55" inputmode="text" value="-556"></div>
+    <div class="bcell"><button class="go" data-i="55">Calculate</button></div>
   </div>
-  <div class="cverd" id="out58"></div>
+  <div class="cverd" id="out55"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇪🇬</span> Egypt</span><span class="meta">1760 · —</span></div>
     <div class="side R"><span class="tname">Iran <span class="fl">🇮🇷</span></span><span class="meta">1825 · €22M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh59">Home <span class="srcbadge">composite</span></label><input id="oh59" inputmode="text" value="+118"></div>
-    <div><label for="od59">Draw</label><input id="od59" inputmode="text" value="+208"></div>
-    <div><label for="oa59">Away</label><input id="oa59" inputmode="text" value="+235"></div>
-    <div class="bcell"><button class="go" data-i="59">Calculate</button></div>
+    <div><label for="oh56">Home <span class="srcbadge">composite</span></label><input id="oh56" inputmode="text" value="+118"></div>
+    <div><label for="od56">Draw</label><input id="od56" inputmode="text" value="+208"></div>
+    <div><label for="oa56">Away</label><input id="oa56" inputmode="text" value="+235"></div>
+    <div class="bcell"><button class="go" data-i="56">Calculate</button></div>
   </div>
-  <div class="cverd" id="out59"></div>
+  <div class="cverd" id="out56"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇵🇦</span> Panama</span><span class="meta">1754 · —</span></div>
     <div class="side R"><span class="tname fav">England <span class="fl">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span></span><span class="meta">1962 · €1.3B</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh60">Home <span class="srcbadge">composite</span></label><input id="oh60" inputmode="text" value="+1750"></div>
-    <div><label for="od60">Draw</label><input id="od60" inputmode="text" value="+563"></div>
-    <div><label for="oa60">Away</label><input id="oa60" inputmode="text" value="-714"></div>
-    <div class="bcell"><button class="go" data-i="60">Calculate</button></div>
+    <div><label for="oh57">Home <span class="srcbadge">composite</span></label><input id="oh57" inputmode="text" value="+1750"></div>
+    <div><label for="od57">Draw</label><input id="od57" inputmode="text" value="+563"></div>
+    <div><label for="oa57">Away</label><input id="oa57" inputmode="text" value="-714"></div>
+    <div class="bcell"><button class="go" data-i="57">Calculate</button></div>
   </div>
-  <div class="cverd" id="out60"></div>
+  <div class="cverd" id="out57"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇭🇷</span> Croatia</span><span class="meta">1869 · €308M</span></div>
     <div class="side R"><span class="tname">Ghana <span class="fl">🇬🇭</span></span><span class="meta">1612 · €181M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh61">Home <span class="srcbadge">composite</span></label><input id="oh61" inputmode="text" value="-118"></div>
-    <div><label for="od61">Draw</label><input id="od61" inputmode="text" value="+230"></div>
-    <div><label for="oa61">Away</label><input id="oa61" inputmode="text" value="+322"></div>
-    <div class="bcell"><button class="go" data-i="61">Calculate</button></div>
+    <div><label for="oh58">Home <span class="srcbadge">composite</span></label><input id="oh58" inputmode="text" value="-118"></div>
+    <div><label for="od58">Draw</label><input id="od58" inputmode="text" value="+230"></div>
+    <div><label for="oa58">Away</label><input id="oa58" inputmode="text" value="+322"></div>
+    <div class="bcell"><button class="go" data-i="58">Calculate</button></div>
   </div>
-  <div class="cverd" id="out61"></div>
+  <div class="cverd" id="out58"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇨🇴</span> Colombia</span><span class="meta">1958 · €216M</span></div>
     <div class="side R"><span class="tname fav">Portugal <span class="fl">🇵🇹</span></span><span class="meta">1943 · €1.0B</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh62">Home <span class="srcbadge">composite</span></label><input id="oh62" inputmode="text" value="+213"></div>
-    <div><label for="od62">Draw</label><input id="od62" inputmode="text" value="+217"></div>
-    <div><label for="oa62">Away</label><input id="oa62" inputmode="text" value="+107"></div>
-    <div class="bcell"><button class="go" data-i="62">Calculate</button></div>
+    <div><label for="oh59">Home <span class="srcbadge">composite</span></label><input id="oh59" inputmode="text" value="+213"></div>
+    <div><label for="od59">Draw</label><input id="od59" inputmode="text" value="+217"></div>
+    <div><label for="oa59">Away</label><input id="oa59" inputmode="text" value="+107"></div>
+    <div class="bcell"><button class="go" data-i="59">Calculate</button></div>
   </div>
-  <div class="cverd" id="out62"></div>
+  <div class="cverd" id="out59"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname fav"><span class="fl">🇨🇩</span> DR Congo</span><span class="meta">1719 · €115M</span></div>
     <div class="side R"><span class="tname">Uzbekistan <span class="fl">🇺🇿</span></span><span class="meta">1747 · —</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh63">Home <span class="srcbadge">composite</span></label><input id="oh63" inputmode="text" value="+108"></div>
-    <div><label for="od63">Draw</label><input id="od63" inputmode="text" value="+215"></div>
-    <div><label for="oa63">Away</label><input id="oa63" inputmode="text" value="+253"></div>
-    <div class="bcell"><button class="go" data-i="63">Calculate</button></div>
+    <div><label for="oh60">Home <span class="srcbadge">composite</span></label><input id="oh60" inputmode="text" value="+108"></div>
+    <div><label for="od60">Draw</label><input id="od60" inputmode="text" value="+215"></div>
+    <div><label for="oa60">Away</label><input id="oa60" inputmode="text" value="+253"></div>
+    <div class="bcell"><button class="go" data-i="60">Calculate</button></div>
   </div>
-  <div class="cverd" id="out63"></div>
+  <div class="cverd" id="out60"></div>
 </div><div class="datehdr">2026-06-28</div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇯🇴</span> Jordan</span><span class="meta">1712 · —</span></div>
     <div class="side R"><span class="tname fav">Argentina <span class="fl">🇦🇷</span></span><span class="meta">2050 · €836M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh64">Home <span class="srcbadge">composite</span></label><input id="oh64" inputmode="text" value="+1850"></div>
-    <div><label for="od64">Draw</label><input id="od64" inputmode="text" value="+550"></div>
-    <div><label for="oa64">Away</label><input id="oa64" inputmode="text" value="-714"></div>
-    <div class="bcell"><button class="go" data-i="64">Calculate</button></div>
+    <div><label for="oh61">Home <span class="srcbadge">composite</span></label><input id="oh61" inputmode="text" value="+1850"></div>
+    <div><label for="od61">Draw</label><input id="od61" inputmode="text" value="+550"></div>
+    <div><label for="oa61">Away</label><input id="oa61" inputmode="text" value="-714"></div>
+    <div class="bcell"><button class="go" data-i="61">Calculate</button></div>
   </div>
-  <div class="cverd" id="out64"></div>
+  <div class="cverd" id="out61"></div>
 </div><div class="match calc">
   <div class="vsrow">
     <div class="side L"><span class="tname"><span class="fl">🇩🇿</span> Algeria</span><span class="meta">1842 · €199M</span></div>
     <div class="side R"><span class="tname fav">Austria <span class="fl">🇦🇹</span></span><span class="meta">1836 · €271M</span></div>
   </div>
   <div class="orow">
-    <div><label for="oh65">Home <span class="srcbadge">composite</span></label><input id="oh65" inputmode="text" value="+198"></div>
-    <div><label for="od65">Draw</label><input id="od65" inputmode="text" value="+223"></div>
-    <div><label for="oa65">Away</label><input id="oa65" inputmode="text" value="+130"></div>
-    <div class="bcell"><button class="go" data-i="65">Calculate</button></div>
+    <div><label for="oh62">Home <span class="srcbadge">composite</span></label><input id="oh62" inputmode="text" value="+198"></div>
+    <div><label for="od62">Draw</label><input id="od62" inputmode="text" value="+223"></div>
+    <div><label for="oa62">Away</label><input id="oa62" inputmode="text" value="+130"></div>
+    <div class="bcell"><button class="go" data-i="62">Calculate</button></div>
   </div>
-  <div class="cverd" id="out65"></div>
+  <div class="cverd" id="out62"></div>
 </div>
   </div>
 
@@ -1485,7 +1425,7 @@ button.go:focus-visible{outline:2px solid var(--amber)}
   </div>
 </div>
 <script>
-const M = [{"h": "Mexico", "a": "South Africa", "vmlp": [0.8168, 0.1354, 0.0478], "pen": null, "res": 0, "score": [2, 0]}, {"h": "South Korea", "a": "Czech Republic", "vmlp": [0.3995, 0.2921, 0.3084], "pen": null, "res": 0, "score": [2, 1]}, {"h": "Canada", "a": "Bosnia and Herzegovina", "vmlp": [0.778, 0.1617, 0.0603], "pen": null, "res": 1, "score": [1, 1]}, {"h": "Netherlands", "a": "Japan", "vmlp": [0.4549, 0.2863, 0.2587], "pen": null, "src": "HR"}, {"h": "Ivory Coast", "a": "Ecuador", "vmlp": [0.2271, 0.2468, 0.5262], "pen": null, "src": "HR"}, {"h": "Sweden", "a": "Tunisia", "vmlp": [0.523, 0.2769, 0.2001], "pen": null, "src": "HR"}, {"h": "Spain", "a": "Cape Verde", "vmlp": [0.8903, 0.092, 0.0178], "pen": null, "src": "HR"}, {"h": "Belgium", "a": "Egypt", "vmlp": [0.6776, 0.2041, 0.1183], "pen": null, "src": "HR"}, {"h": "Saudi Arabia", "a": "Uruguay", "vmlp": [0.1334, 0.1974, 0.6691], "pen": null, "src": "HR"}, {"h": "Iran", "a": "New Zealand", "vmlp": [0.7112, 0.188, 0.1007], "pen": null, "src": "HR"}, {"h": "France", "a": "Senegal", "vmlp": [0.6882, 0.2078, 0.1041], "pen": null, "src": "HR"}, {"h": "Iraq", "a": "Norway", "vmlp": [0.1121, 0.1889, 0.699], "pen": null, "src": "HR"}, {"h": "Argentina", "a": "Algeria", "vmlp": [0.7171, 0.1943, 0.0886], "pen": null, "src": "HR"}, {"h": "Austria", "a": "Jordan", "vmlp": [0.6091, 0.2331, 0.1578], "pen": null, "src": "HR"}, {"h": "Portugal", "a": "DR Congo", "vmlp": [0.7704, 0.169, 0.0606], "pen": null, "src": "HR"}, {"h": "England", "a": "Croatia", "vmlp": [0.6197, 0.2385, 0.1418], "pen": null, "src": "HR"}, {"h": "Ghana", "a": "Panama", "vmlp": [0.2151, 0.2439, 0.541], "pen": null, "src": "HR"}, {"h": "Uzbekistan", "a": "Colombia", "vmlp": [0.136, 0.2025, 0.6615], "pen": null, "src": "HR"}, {"h": "Czech Republic", "a": "South Africa", "vmlp": [0.6079, 0.2333, 0.1589], "pen": null, "src": "HR"}, {"h": "Switzerland", "a": "Bosnia and Herzegovina", "vmlp": [0.7669, 0.1673, 0.0658], "pen": "a", "src": "composite"}, {"h": "Canada", "a": "Qatar", "vmlp": [0.8441, 0.1181, 0.0378], "pen": "h", "src": "composite"}, {"h": "Mexico", "a": "South Korea", "vmlp": [0.6306, 0.2331, 0.1363], "pen": null, "src": "composite"}, {"h": "United States", "a": "Australia", "vmlp": [0.5503, 0.2802, 0.1695], "pen": null, "src": "composite"}, {"h": "Scotland", "a": "Morocco", "vmlp": [0.2171, 0.254, 0.5289], "pen": null, "src": "composite"}, {"h": "Brazil", "a": "Haiti", "vmlp": [0.8204, 0.1405, 0.0391], "pen": null, "src": "composite"}, {"h": "Turkey", "a": "Paraguay", "vmlp": [0.5581, 0.2513, 0.1906], "pen": null, "src": "composite"}, {"h": "Netherlands", "a": "Sweden", "vmlp": [0.6909, 0.2022, 0.1069], "pen": null, "src": "composite"}, {"h": "Germany", "a": "Ivory Coast", "vmlp": [0.6253, 0.2319, 0.1428], "pen": null, "src": "composite"}, {"h": "Ecuador", "a": "Cura\u00e7ao", "vmlp": [0.8502, 0.1184, 0.0314], "pen": null, "src": "composite"}, {"h": "Tunisia", "a": "Japan", "vmlp": [0.1149, 0.206, 0.6792], "pen": null, "src": "composite"}, {"h": "Spain", "a": "Saudi Arabia", "vmlp": [0.8759, 0.095, 0.0291], "pen": null, "src": "composite"}, {"h": "Belgium", "a": "Iran", "vmlp": [0.6293, 0.245, 0.1257], "pen": null, "src": "composite"}, {"h": "Uruguay", "a": "Cape Verde", "vmlp": [0.761, 0.1755, 0.0635], "pen": null, "src": "composite"}, {"h": "New Zealand", "a": "Egypt", "vmlp": [0.2167, 0.2536, 0.5297], "pen": null, "src": "composite"}, {"h": "Argentina", "a": "Austria", "vmlp": [0.7495, 0.1755, 0.075], "pen": null, "src": "composite"}, {"h": "France", "a": "Iraq", "vmlp": [0.822, 0.1289, 0.0491], "pen": null, "src": "composite"}, {"h": "Norway", "a": "Senegal", "vmlp": [0.5509, 0.2557, 0.1934], "pen": null, "src": "composite"}, {"h": "Jordan", "a": "Algeria", "vmlp": [0.1868, 0.2428, 0.5704], "pen": null, "src": "composite"}, {"h": "Portugal", "a": "Uzbekistan", "vmlp": [0.7174, 0.1854, 0.0971], "pen": null, "src": "composite"}, {"h": "England", "a": "Ghana", "vmlp": [0.8473, 0.1198, 0.033], "pen": null, "src": "composite"}, {"h": "Panama", "a": "Croatia", "vmlp": [0.2475, 0.2572, 0.4953], "pen": null, "src": "composite"}, {"h": "Colombia", "a": "DR Congo", "vmlp": [0.7601, 0.1672, 0.0727], "pen": null, "src": "composite"}, {"h": "Switzerland", "a": "Canada", "vmlp": [0.552, 0.2585, 0.1895], "pen": null, "src": "composite"}, {"h": "Bosnia and Herzegovina", "a": "Qatar", "vmlp": [0.6323, 0.2236, 0.1441], "pen": null, "src": "composite"}, {"h": "Morocco", "a": "Haiti", "vmlp": [0.7634, 0.1723, 0.0643], "pen": null, "src": "composite"}, {"h": "Scotland", "a": "Brazil", "vmlp": [0.1342, 0.2134, 0.6524], "pen": null, "src": "composite"}, {"h": "Czech Republic", "a": "Mexico", "vmlp": [0.2038, 0.2392, 0.557], "pen": null, "src": "composite"}, {"h": "South Africa", "a": "South Korea", "vmlp": [0.1392, 0.2052, 0.6556], "pen": null, "src": "composite"}, {"h": "Ecuador", "a": "Germany", "vmlp": [0.3884, 0.289, 0.3226], "pen": null, "src": "composite"}, {"h": "Cura\u00e7ao", "a": "Ivory Coast", "vmlp": [0.0894, 0.1968, 0.7138], "pen": null, "src": "composite"}, {"h": "Tunisia", "a": "Netherlands", "vmlp": [0.0913, 0.2042, 0.7045], "pen": null, "src": "composite"}, {"h": "Japan", "a": "Sweden", "vmlp": [0.6565, 0.2089, 0.1346], "pen": null, "src": "composite"}, {"h": "Turkey", "a": "United States", "vmlp": [0.5665, 0.2498, 0.1838], "pen": null, "src": "composite"}, {"h": "Paraguay", "a": "Australia", "vmlp": [0.3712, 0.2909, 0.3379], "pen": null, "src": "composite"}, {"h": "Norway", "a": "France", "vmlp": [0.2545, 0.2648, 0.4807], "pen": null, "src": "composite"}, {"h": "Senegal", "a": "Iraq", "vmlp": [0.6616, 0.2114, 0.127], "pen": null, "src": "composite"}, {"h": "Uruguay", "a": "Spain", "vmlp": [0.1182, 0.2034, 0.6784], "pen": null, "src": "composite"}, {"h": "Cape Verde", "a": "Saudi Arabia", "vmlp": [0.3904, 0.2906, 0.319], "pen": null, "src": "composite"}, {"h": "New Zealand", "a": "Belgium", "vmlp": [0.0494, 0.1596, 0.7909], "pen": null, "src": "composite"}, {"h": "Egypt", "a": "Iran", "vmlp": [0.2977, 0.2775, 0.4248], "pen": null, "src": "composite"}, {"h": "Panama", "a": "England", "vmlp": [0.1262, 0.1998, 0.674], "pen": null, "src": "composite"}, {"h": "Croatia", "a": "Ghana", "vmlp": [0.7577, 0.168, 0.0744], "pen": null, "src": "composite"}, {"h": "Colombia", "a": "Portugal", "vmlp": [0.3677, 0.2908, 0.3415], "pen": null, "src": "composite"}, {"h": "DR Congo", "a": "Uzbekistan", "vmlp": [0.3607, 0.2877, 0.3516], "pen": null, "src": "composite"}, {"h": "Jordan", "a": "Argentina", "vmlp": [0.0559, 0.1316, 0.8125], "pen": null, "src": "composite"}, {"h": "Algeria", "a": "Austria", "vmlp": [0.4524, 0.2798, 0.2678], "pen": null, "src": "composite"}];
+const M = [{"h": "Mexico", "a": "South Africa", "vmlp": [0.8168, 0.1354, 0.0478], "pen": null, "res": 0, "score": [2, 0]}, {"h": "South Korea", "a": "Czech Republic", "vmlp": [0.3995, 0.2921, 0.3084], "pen": null, "res": 0, "score": [2, 1]}, {"h": "Canada", "a": "Bosnia and Herzegovina", "vmlp": [0.778, 0.1617, 0.0603], "pen": null, "res": 1, "score": [1, 1]}, {"h": "Spain", "a": "Cape Verde", "vmlp": [0.8903, 0.092, 0.0178], "pen": null, "src": "HR"}, {"h": "Belgium", "a": "Egypt", "vmlp": [0.6776, 0.2041, 0.1183], "pen": null, "src": "HR"}, {"h": "Saudi Arabia", "a": "Uruguay", "vmlp": [0.1334, 0.1974, 0.6691], "pen": null, "src": "HR"}, {"h": "Iran", "a": "New Zealand", "vmlp": [0.7112, 0.188, 0.1007], "pen": null, "src": "HR"}, {"h": "France", "a": "Senegal", "vmlp": [0.6882, 0.2078, 0.1041], "pen": null, "src": "HR"}, {"h": "Iraq", "a": "Norway", "vmlp": [0.1121, 0.1889, 0.699], "pen": null, "src": "HR"}, {"h": "Argentina", "a": "Algeria", "vmlp": [0.7171, 0.1943, 0.0886], "pen": null, "src": "HR"}, {"h": "Austria", "a": "Jordan", "vmlp": [0.6091, 0.2331, 0.1578], "pen": null, "src": "HR"}, {"h": "Portugal", "a": "DR Congo", "vmlp": [0.7704, 0.169, 0.0606], "pen": null, "src": "HR"}, {"h": "England", "a": "Croatia", "vmlp": [0.6197, 0.2385, 0.1418], "pen": null, "src": "HR"}, {"h": "Ghana", "a": "Panama", "vmlp": [0.2151, 0.2439, 0.541], "pen": null, "src": "HR"}, {"h": "Uzbekistan", "a": "Colombia", "vmlp": [0.136, 0.2025, 0.6615], "pen": null, "src": "HR"}, {"h": "Czech Republic", "a": "South Africa", "vmlp": [0.6079, 0.2333, 0.1589], "pen": null, "src": "HR"}, {"h": "Switzerland", "a": "Bosnia and Herzegovina", "vmlp": [0.7669, 0.1673, 0.0658], "pen": "a", "src": "composite"}, {"h": "Canada", "a": "Qatar", "vmlp": [0.8441, 0.1181, 0.0378], "pen": "h", "src": "composite"}, {"h": "Mexico", "a": "South Korea", "vmlp": [0.6306, 0.2331, 0.1363], "pen": null, "src": "composite"}, {"h": "United States", "a": "Australia", "vmlp": [0.5503, 0.2802, 0.1695], "pen": null, "src": "composite"}, {"h": "Scotland", "a": "Morocco", "vmlp": [0.2171, 0.254, 0.5289], "pen": null, "src": "composite"}, {"h": "Brazil", "a": "Haiti", "vmlp": [0.8204, 0.1405, 0.0391], "pen": null, "src": "composite"}, {"h": "Turkey", "a": "Paraguay", "vmlp": [0.5581, 0.2513, 0.1906], "pen": null, "src": "composite"}, {"h": "Netherlands", "a": "Sweden", "vmlp": [0.6909, 0.2022, 0.1069], "pen": null, "src": "composite"}, {"h": "Germany", "a": "Ivory Coast", "vmlp": [0.6253, 0.2319, 0.1428], "pen": null, "src": "composite"}, {"h": "Ecuador", "a": "Cura\u00e7ao", "vmlp": [0.8502, 0.1184, 0.0314], "pen": null, "src": "composite"}, {"h": "Tunisia", "a": "Japan", "vmlp": [0.1149, 0.206, 0.6792], "pen": null, "src": "composite"}, {"h": "Spain", "a": "Saudi Arabia", "vmlp": [0.8759, 0.095, 0.0291], "pen": null, "src": "composite"}, {"h": "Belgium", "a": "Iran", "vmlp": [0.6293, 0.245, 0.1257], "pen": null, "src": "composite"}, {"h": "Uruguay", "a": "Cape Verde", "vmlp": [0.761, 0.1755, 0.0635], "pen": null, "src": "composite"}, {"h": "New Zealand", "a": "Egypt", "vmlp": [0.2167, 0.2536, 0.5297], "pen": null, "src": "composite"}, {"h": "Argentina", "a": "Austria", "vmlp": [0.7495, 0.1755, 0.075], "pen": null, "src": "composite"}, {"h": "France", "a": "Iraq", "vmlp": [0.822, 0.1289, 0.0491], "pen": null, "src": "composite"}, {"h": "Norway", "a": "Senegal", "vmlp": [0.5509, 0.2557, 0.1934], "pen": null, "src": "composite"}, {"h": "Jordan", "a": "Algeria", "vmlp": [0.1868, 0.2428, 0.5704], "pen": null, "src": "composite"}, {"h": "Portugal", "a": "Uzbekistan", "vmlp": [0.7174, 0.1854, 0.0971], "pen": null, "src": "composite"}, {"h": "England", "a": "Ghana", "vmlp": [0.8473, 0.1198, 0.033], "pen": null, "src": "composite"}, {"h": "Panama", "a": "Croatia", "vmlp": [0.2475, 0.2572, 0.4953], "pen": null, "src": "composite"}, {"h": "Colombia", "a": "DR Congo", "vmlp": [0.7601, 0.1672, 0.0727], "pen": null, "src": "composite"}, {"h": "Switzerland", "a": "Canada", "vmlp": [0.552, 0.2585, 0.1895], "pen": null, "src": "composite"}, {"h": "Bosnia and Herzegovina", "a": "Qatar", "vmlp": [0.6323, 0.2236, 0.1441], "pen": null, "src": "composite"}, {"h": "Morocco", "a": "Haiti", "vmlp": [0.7634, 0.1723, 0.0643], "pen": null, "src": "composite"}, {"h": "Scotland", "a": "Brazil", "vmlp": [0.1342, 0.2134, 0.6524], "pen": null, "src": "composite"}, {"h": "Czech Republic", "a": "Mexico", "vmlp": [0.2038, 0.2392, 0.557], "pen": null, "src": "composite"}, {"h": "South Africa", "a": "South Korea", "vmlp": [0.1392, 0.2052, 0.6556], "pen": null, "src": "composite"}, {"h": "Ecuador", "a": "Germany", "vmlp": [0.3884, 0.289, 0.3226], "pen": null, "src": "composite"}, {"h": "Cura\u00e7ao", "a": "Ivory Coast", "vmlp": [0.0894, 0.1968, 0.7138], "pen": null, "src": "composite"}, {"h": "Tunisia", "a": "Netherlands", "vmlp": [0.0913, 0.2042, 0.7045], "pen": null, "src": "composite"}, {"h": "Japan", "a": "Sweden", "vmlp": [0.6565, 0.2089, 0.1346], "pen": null, "src": "composite"}, {"h": "Turkey", "a": "United States", "vmlp": [0.5665, 0.2498, 0.1838], "pen": null, "src": "composite"}, {"h": "Paraguay", "a": "Australia", "vmlp": [0.3712, 0.2909, 0.3379], "pen": null, "src": "composite"}, {"h": "Norway", "a": "France", "vmlp": [0.2545, 0.2648, 0.4807], "pen": null, "src": "composite"}, {"h": "Senegal", "a": "Iraq", "vmlp": [0.6616, 0.2114, 0.127], "pen": null, "src": "composite"}, {"h": "Uruguay", "a": "Spain", "vmlp": [0.1182, 0.2034, 0.6784], "pen": null, "src": "composite"}, {"h": "Cape Verde", "a": "Saudi Arabia", "vmlp": [0.3904, 0.2906, 0.319], "pen": null, "src": "composite"}, {"h": "New Zealand", "a": "Belgium", "vmlp": [0.0494, 0.1596, 0.7909], "pen": null, "src": "composite"}, {"h": "Egypt", "a": "Iran", "vmlp": [0.2977, 0.2775, 0.4248], "pen": null, "src": "composite"}, {"h": "Panama", "a": "England", "vmlp": [0.1262, 0.1998, 0.674], "pen": null, "src": "composite"}, {"h": "Croatia", "a": "Ghana", "vmlp": [0.7577, 0.168, 0.0744], "pen": null, "src": "composite"}, {"h": "Colombia", "a": "Portugal", "vmlp": [0.3677, 0.2908, 0.3415], "pen": null, "src": "composite"}, {"h": "DR Congo", "a": "Uzbekistan", "vmlp": [0.3607, 0.2877, 0.3516], "pen": null, "src": "composite"}, {"h": "Jordan", "a": "Argentina", "vmlp": [0.0559, 0.1316, 0.8125], "pen": null, "src": "composite"}, {"h": "Algeria", "a": "Austria", "vmlp": [0.4524, 0.2798, 0.2678], "pen": null, "src": "composite"}];
 const W = 0.18, KMULT = 0.75;
 const $ = id => document.getElementById(id);
 function a2d(s){ s=String(s).trim().replace('−','-'); const v=parseFloat(s);
